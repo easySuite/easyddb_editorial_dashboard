@@ -35,7 +35,7 @@ function _easyddb_editorial_dashboard_action($node, $action) {
     $t = array(
       '@callback' => $callback,
     );
-    watchdog('editorial', t('No such @callback defined.'), $t, WATCHDOG_ERROR);
+    watchdog('editorial', t('No such @callback() method defined.'), $t, WATCHDOG_ERROR);
   }
 
   drupal_goto($dest['destination']);
@@ -105,6 +105,23 @@ function easyddb_editorial_dashboard_node_delete($node) {
   $node->field_editorial_status[LANGUAGE_NONE] = array(
     array(
       'value' => EDITORIAL_NODE_DELETED,
+    ),
+  );
+}
+
+/**
+ * Node restore processing.
+ *
+ * @param object $node
+ *   Node object being altered.
+ *
+ * @see _easyddb_editorial_dashboard_action()
+ * @see easyddb_editorial_dashboard_valid_actions()
+ */
+function easyddb_editorial_dashboard_node_restore($node) {
+  $node->field_editorial_status[LANGUAGE_NONE] = array(
+    array(
+      'value' => EDITORIAL_NODE_RESTORED,
     ),
   );
 }

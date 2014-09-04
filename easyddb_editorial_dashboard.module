@@ -11,11 +11,13 @@ define('EDITORIAL_NODE_PUSHED', 'ed_pushed');
 define('EDITORIAL_NODE_APPROVED', 'ed_appr');
 define('EDITORIAL_NODE_REJECTED', 'ed_rej');
 define('EDITORIAL_NODE_DELETED', 'ed_del');
+define('EDITORIAL_NODE_RESTORED', 'ed_res');
 
 define('EDITORIAL_ACTION_PUSH', 'push');
 define('EDITORIAL_ACTION_APPROVE', 'approve');
 define('EDITORIAL_ACTION_REJECT', 'reject');
 define('EDITORIAL_ACTION_DELETE', 'delete');
+define('EDITORIAL_ACTION_RESTORE', 'restore');
 
 /**
  * Implements hook_menu().
@@ -234,6 +236,14 @@ function easyddb_editorial_dashboard_views_data() {
     ),
   );
 
+  $data['views_entity_node']['ed_restore_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Restore link'),
+      'help' => t('Provide a simple link to restore the content from deleted state in editorial system.'),
+      'handler' => 'editorial_dashboard_editorial_restore',
+    ),
+  );
+
   return $data;
 }
 
@@ -249,6 +259,7 @@ function easyddb_editorial_dashboard_valid_actions() {
     EDITORIAL_ACTION_APPROVE => '_node_approve',
     EDITORIAL_ACTION_REJECT => '_node_reject',
     EDITORIAL_ACTION_DELETE => '_node_delete',
+    EDITORIAL_ACTION_RESTORE => '_node_restore',
   );
 
   return $actions;
@@ -272,7 +283,7 @@ function easyddb_editorial_dashboard_editorial_status_changed($action, $node) {
  * Implements hook_views_api().
  */
 function easyddb_editorial_dashboard_views_api() {
-  return array('api' => 3);
+  return array('api' => 2);
 }
 
 /**
@@ -280,4 +291,31 @@ function easyddb_editorial_dashboard_views_api() {
  */
 function easyddb_editorial_dashboard_views_default_views() {
   return workbench_load_all_exports('easyddb_editorial_dashboard', 'views', 'view.inc', 'view');
+}
+
+function easyddb_editorial_dashboard_workflow($state) {
+  $flow = array(
+    EDITORIAL_NODE_NEW => array(
+      EDITORIAL_ACTION_PUSH
+    ),
+    EDITORIAL_NODE_PUSHED => array(
+      EDITORIAL_ACTION_APPROVE,
+      EDITORIAL_ACTION_REJECT,
+    ),
+    EDITORIAL_NODE_APPROVED => array(
+      EDITORIAL_ACTION_REJECT,
+      EDITORIAL_ACTION_DELETE,
+    ),
+    EDITORIAL_NODE_REJECTED => array(
+      EDITORIAL_ACTION_DELETE,
+    ),
+    EDITORIAL_NODE_DELETED => array(
+      EDITORIAL_ACTION_RESTORE
+    ),
+    EDITORIAL_NODE_RESTORED => array(
+      EDITORIAL_ACTION_PUSH
+    ),
+  );
+
+  return $flow[$state];
 }

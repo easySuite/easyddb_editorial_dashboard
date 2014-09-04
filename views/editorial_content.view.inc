@@ -42,6 +42,11 @@ $handler->display->display_options['style_options']['columns'] = array(
   'name' => 'name',
   'changed' => 'changed',
   'edit_node' => 'edit_node',
+  'ed_push_node' => 'ed_push_node',
+  'ed_approve_node' => 'ed_approve_node',
+  'ed_reject_node' => 'ed_reject_node',
+  'ed_restore_node' => 'ed_restore_node',
+  'ed_delete_node' => 'ed_delete_node',
 );
 $handler->display->display_options['style_options']['default'] = 'changed';
 $handler->display->display_options['style_options']['info'] = array(
@@ -91,6 +96,31 @@ $handler->display->display_options['style_options']['info'] = array(
     'align' => '',
     'separator' => '',
     'empty_column' => 0,
+  ),
+  'ed_push_node' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'ed_approve_node' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'ed_reject_node' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'ed_restore_node' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'ed_delete_node' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
   ),
 );
 /* No results behavior: Global: Text area */
@@ -196,6 +226,7 @@ $handler->display->display_options['filters']['field_editorial_status_value']['v
   'ed_appr' => 'ed_appr',
   'ed_rej' => 'ed_rej',
   'ed_del' => 'ed_del',
+  'ed_res' => 'ed_res',
 );
 $handler->display->display_options['filters']['field_editorial_status_value']['exposed'] = TRUE;
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator_id'] = 'field_editorial_status_value_op';
@@ -280,6 +311,7 @@ $handler->display->display_options['fields']['ed_push_node']['table'] = 'views_e
 $handler->display->display_options['fields']['ed_push_node']['field'] = 'ed_push_node';
 $handler->display->display_options['fields']['ed_push_node']['label'] = '';
 $handler->display->display_options['fields']['ed_push_node']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['ed_push_node']['hide_empty'] = TRUE;
 $handler->display->display_options['fields']['ed_push_node']['text'] = 'push';
 /* Field: Content: Editorial Approve link */
 $handler->display->display_options['fields']['ed_approve_node']['id'] = 'ed_approve_node';
@@ -294,13 +326,23 @@ $handler->display->display_options['fields']['ed_reject_node']['table'] = 'views
 $handler->display->display_options['fields']['ed_reject_node']['field'] = 'ed_reject_node';
 $handler->display->display_options['fields']['ed_reject_node']['label'] = '';
 $handler->display->display_options['fields']['ed_reject_node']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['ed_reject_node']['hide_empty'] = TRUE;
 $handler->display->display_options['fields']['ed_reject_node']['text'] = 'reject';
+/* Field: Content: Editorial Restore link */
+$handler->display->display_options['fields']['ed_restore_node']['id'] = 'ed_restore_node';
+$handler->display->display_options['fields']['ed_restore_node']['table'] = 'views_entity_node';
+$handler->display->display_options['fields']['ed_restore_node']['field'] = 'ed_restore_node';
+$handler->display->display_options['fields']['ed_restore_node']['label'] = '';
+$handler->display->display_options['fields']['ed_restore_node']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['ed_restore_node']['hide_empty'] = TRUE;
+$handler->display->display_options['fields']['ed_restore_node']['text'] = 'restore';
 /* Field: Content: Editorial Delete link */
 $handler->display->display_options['fields']['ed_delete_node']['id'] = 'ed_delete_node';
 $handler->display->display_options['fields']['ed_delete_node']['table'] = 'views_entity_node';
 $handler->display->display_options['fields']['ed_delete_node']['field'] = 'ed_delete_node';
 $handler->display->display_options['fields']['ed_delete_node']['label'] = '';
 $handler->display->display_options['fields']['ed_delete_node']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['ed_delete_node']['hide_empty'] = TRUE;
 $handler->display->display_options['fields']['ed_delete_node']['text'] = 'delete';
 $handler->display->display_options['path'] = 'admin/workbench/content/editorial';
 $handler->display->display_options['menu']['type'] = 'tab';
@@ -340,5 +382,6 @@ $translatables['workbench_new_editorial_content'] = array(
   t('push'),
   t('approve'),
   t('reject'),
+  t('restore'),
   t('delete'),
 );

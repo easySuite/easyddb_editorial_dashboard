@@ -67,25 +67,6 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
     return;
   }
 
-  $field_definition = array(
-    'field_name' => 'field_editorial_status',
-    'type' => 'list_text',
-    'module' => 'list',
-    'active' => '1',
-    'locked' => '0',
-    'cardinality' => '1',
-    'deleted' => '0',
-    'settings' => array(
-      'allowed_values' => array(
-        EDITORIAL_NODE_NEW => t('New'),
-        EDITORIAL_NODE_PUSHED => t('Pushed'),
-        EDITORIAL_NODE_APPROVED => t('Approved'),
-        EDITORIAL_NODE_REJECTED => t('Rejected'),
-        EDITORIAL_NODE_DELETED => t('Deleted'),
-      ),
-    ),
-  );
-
   $instance_definition = array(
     'label' => 'Editorial status',
     'field_name' => 'field_editorial_status',
@@ -104,30 +85,6 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
       ),
     ),
   );
-
-  // Create the field that would contain the node editorial status.
-  $field = field_read_field('field_editorial_status');
-  if (!$field) {
-    $error = FALSE;
-
-    try {
-      field_create_field($field_definition);
-    }
-    catch (Exception $e) {
-      $error = TRUE;
-      $t = array(
-        '@field' => $field_definition['field_name'],
-      );
-      watchdog_exception('editorial', $e, t('Exception thrown when creating field @field.'), $t, WATCHDOG_CRITICAL);
-    }
-
-    if (!$error) {
-      $t = array(
-        '@field' => 'field_editorial_status'
-      );
-      drupal_set_message(t('Field @field created successfully.', $t));
-    }
-  }
 
   // For each selected node bundle, create a field instance and attach it.
   foreach ($node_types as $type) {
