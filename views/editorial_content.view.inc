@@ -342,5 +342,3 @@ $translatables['workbench_new_editorial_content'] = array(
   t('reject'),
   t('delete'),
 );
-
-

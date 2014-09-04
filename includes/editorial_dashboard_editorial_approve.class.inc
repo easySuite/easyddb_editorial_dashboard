@@ -27,4 +27,3 @@ class editorial_dashboard_editorial_approve extends views_handler_field_node_lin
     return $text;
   }
 }
-
