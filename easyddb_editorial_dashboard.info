@@ -1,0 +1,11 @@
+name = Editorial Dashboard
+description = Provides editorial content features.
+package = EasyDDB
+core = 7.x
+version = 7.x-0.1
+dependencies[] = views
+dependencies[] = workbench
+files[] = "includes/editorial_dashboard_editorial_push.class.inc"
+files[] = "includes/editorial_dashboard_editorial_approve.class.inc"
+files[] = "includes/editorial_dashboard_editorial_reject.class.inc"
+files[] = "includes/editorial_dashboard_editorial_delete.class.inc"

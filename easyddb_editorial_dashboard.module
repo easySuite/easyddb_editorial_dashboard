@@ -1,0 +1,283 @@
+<?php
+/**
+ * @file
+ * Editorial dashboard module.
+ *
+ * Provides editorial interface for various roles across system.
+ */
+
+define('EDITORIAL_NODE_NEW', 'ed_new');
+define('EDITORIAL_NODE_PUSHED', 'ed_pushed');
+define('EDITORIAL_NODE_APPROVED', 'ed_appr');
+define('EDITORIAL_NODE_REJECTED', 'ed_rej');
+define('EDITORIAL_NODE_DELETED', 'ed_del');
+
+define('EDITORIAL_ACTION_PUSH', 'push');
+define('EDITORIAL_ACTION_APPROVE', 'approve');
+define('EDITORIAL_ACTION_REJECT', 'reject');
+define('EDITORIAL_ACTION_DELETE', 'delete');
+
+/**
+ * Implements hook_menu().
+ */
+function easyddb_editorial_dashboard_menu() {
+  $menu = array();
+
+  $menu['admin/config/editorial'] = array(
+    'title' => 'Editorial Dashboard',
+    'description' => 'Editorial settings',
+    'access arguments' => array('administer editorial dashboard'),
+    'page callback' => 'easyddb_editorial_dashboard_admin_menu_block_page',
+    'page arguments' => array(),
+    'file' => 'easyddb_editorial_dashboard.admin.inc',
+  );
+
+  $menu['admin/config/editorial/content'] = array(
+    'title' => 'Content types',
+    'description' => 'Define which content types are a part of editorial system',
+    'access arguments' => array('administer editorial dashboard'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('easyddb_editorial_dashboard_admin_content_types'),
+    'file' => 'easyddb_editorial_dashboard.admin.inc',
+  );
+
+  $menu['node/%node/editorial/%'] = array(
+    'access arguments' => array('access content'),
+    'page callback' => '_easyddb_editorial_dashboard_action',
+    'page arguments' => array(1, 3),
+    'type' => MENU_CALLBACK,
+    'file' => 'easyddb_editorial_dashboard.pages.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function easyddb_editorial_dashboard_permission() {
+  $perm = array();
+
+  $perm['administer editorial dashboard'] = array(
+    'title' => 'Administer editorial dashboard',
+    'description' => 'Change various editorial settings'
+  );
+
+  return $perm;
+}
+
+/**
+ * Impement hook_form_BASE_FORM_ID_alter().
+ */
+function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+
+  $editorial = FALSE;
+  foreach ($editorial_types as $type) {
+    if (stripos($form_id, $type) !== FALSE) {
+      $editorial = TRUE;
+      break;
+    }
+  }
+
+  if (!$editorial) {
+    return;
+  }
+
+  // Node form alterations follow...
+  $form['field_editorial_status'][LANGUAGE_NONE]['#disabled'] = TRUE;
+}
+
+/**
+ * Implement hook_form_FORM_ID_alter().
+ *
+ * Alter the exposed filters views form.
+ * This function limits the values available in the Type dropdown,
+ * so it reflects the setting set in the backend.
+ */
+function easyddb_editorial_dashboard_form_views_exposed_form_alter(&$form, &$form_state) {
+  if (arg(1) == 'workbench' && arg(3) == 'editorial') {
+    $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+    $enabled_types = array_intersect_key($form['type']['#options'], $editorial_types);
+    $form['type']['#options'] = array(
+      'All' => reset($form['type']['#options'])
+    );
+    $form['type']['#options'] += $enabled_types;
+  }
+}
+
+/**
+ * Implement hook_query_alter().
+ *
+ * Alter the editorial views query.
+ * Besides altering the exposed filter form, we need to alter the
+ * query in the case when All type of content is selected, so All
+ * would point to the types only defined in the backend of the
+ * editorial system.
+ */
+function easyddb_editorial_dashboard_query_alter($query) {
+  if ($query->hasTag('editorial_content')) {
+    $conditions =& $query->conditions();
+    // FYI
+    // There is no error here. It's double nested.
+    $conditions =& $conditions[0]['field']->conditions();
+    $conditions =& $conditions[0]['field']->conditions();
+
+    $not_found = TRUE;
+    // See if there is already a type selected.
+    // It's required to alter the condition only when All is selected,
+    // so only node bundles selected in editorial settings are fetched.
+    foreach ($conditions as $condition) {
+      if ($condition['field'] == 'node.type') {
+        $not_found = FALSE;
+        break;
+      }
+    }
+
+    if ($not_found) {
+      $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+      $conditions[] = array(
+        'field' => 'node.type',
+        'value' => $editorial_types,
+        'operator' => 'IN',
+      );
+    }
+  }
+}
+
+/**
+ * Set a specific editorial status for all nodes in a selected bundle.
+ *
+ * @param mixed $type
+ *   Node bundles, whose nodes should be altered.
+ * @param string $status
+ *   Editorial status to set.
+ *
+ * @return mixed
+ *   Number of nodes altered, FALSE on error.
+ */
+function easyddb_editorial_dashboard_reset_nodes($type, $status = EDITORIAL_NODE_NEW) {
+  if (!is_array($type)) {
+    $type = array($type);
+  }
+
+  if (count($type) == 0) {
+    return FALSE;
+  }
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', $type, 'IN');
+  $result = $query->execute();
+
+  if (!isset($result['node'])) {
+    return FALSE;
+  }
+
+  $nids = array_keys($result['node']);
+  $nodes = node_load_multiple($nids);
+
+  $count = 0;
+  foreach ($nodes as $node) {
+    $node->field_editorial_status[LANGUAGE_NONE] = array(
+      array(
+        'value' => $status,
+      ),
+    );
+    module_invoke_all('editorial_status_changed', $status, $node);
+    node_save($node);
+    $count++;
+  }
+
+  return $count;
+}
+
+/**
+ * Implements hook_views_data().
+ *
+ * Creates items usable in views.
+ *
+ * This creates all editorial links so they can be used inside views.
+ */
+function easyddb_editorial_dashboard_views_data() {
+  $data = array();
+
+  $data['views_entity_node']['ed_push_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Push link'),
+      'help' => t('Provide a simple link to push the content in editorial system.'),
+      'handler' => 'editorial_dashboard_editorial_push',
+    ),
+  );
+
+  $data['views_entity_node']['ed_approve_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Approve link'),
+      'help' => t('Provide a simple link to approve the content in editorial system.'),
+      'handler' => 'editorial_dashboard_editorial_approve',
+    ),
+  );
+
+  $data['views_entity_node']['ed_reject_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Reject link'),
+      'help' => t('Provide a simple link to reject the content in editorial system.'),
+      'handler' => 'editorial_dashboard_editorial_reject',
+    ),
+  );
+
+  $data['views_entity_node']['ed_delete_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Delete link'),
+      'help' => t('Provide a simple link to delete the content from editorial system.'),
+      'handler' => 'editorial_dashboard_editorial_delete',
+    ),
+  );
+
+  return $data;
+}
+
+/**
+ * Define valid editorial actions on a node.
+ *
+ * @return array
+ *   Set of valid actions with their callbacks.
+ */
+function easyddb_editorial_dashboard_valid_actions() {
+  $actions = array(
+    EDITORIAL_ACTION_PUSH => '_node_push',
+    EDITORIAL_ACTION_APPROVE => '_node_approve',
+    EDITORIAL_ACTION_REJECT => '_node_reject',
+    EDITORIAL_ACTION_DELETE => '_node_delete',
+  );
+
+  return $actions;
+}
+
+/**
+ * Implements hook_editorial_status_changed().
+ *
+ * Act when a node editorial status is changed.
+ */
+function easyddb_editorial_dashboard_editorial_status_changed($action, $node) {
+  if ($action == EDITORIAL_ACTION_APPROVE) {
+    $node->status = 1;
+  }
+  elseif ($action == EDITORIAL_ACTION_REJECT) {
+    $node->status = 0;
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function easyddb_editorial_dashboard_views_api() {
+  return array('api' => 3);
+}
+
+/**
+ * Implements hook_views_default_views().
+ */
+function easyddb_editorial_dashboard_views_default_views() {
+  return workbench_load_all_exports('easyddb_editorial_dashboard', 'views', 'view.inc', 'view');
+}

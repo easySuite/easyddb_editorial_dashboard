@@ -1,0 +1,110 @@
+<?php
+/**
+ * @file
+ * Editorial items operations.
+ */
+
+/**
+ * Process the requested editorial action on a node.
+ *
+ * @param object $node
+ *   Node object being altered.
+ * @param string $action
+ *   Action taking place on this node.
+ */
+function _easyddb_editorial_dashboard_action($node, $action) {
+  $valid_actions = easyddb_editorial_dashboard_valid_actions();
+  $dest = drupal_get_destination();
+
+  if (!in_array($action, array_keys($valid_actions))) {
+    $t = array(
+      '@action' => $action
+    );
+    watchdog('editorial', t('Unknown action @action requested.'), $t, WATCHDOG_WARNING);
+    drupal_goto($dest['destination']);
+  }
+
+  $callback = 'easyddb_editorial_dashboard' . $valid_actions[$action];
+  if (function_exists($callback)) {
+    $callback($node);
+
+    module_invoke_all('editorial_status_changed', $action, $node);
+    node_save($node);
+  }
+  else {
+    $t = array(
+      '@callback' => $callback,
+    );
+    watchdog('editorial', t('No such @callback defined.'), $t, WATCHDOG_ERROR);
+  }
+
+  drupal_goto($dest['destination']);
+}
+
+/**
+ * Node push processing.
+ *
+ * @param object $node
+ *   Node object being altered.
+ *
+ * @see _easyddb_editorial_dashboard_action()
+ * @see easyddb_editorial_dashboard_valid_actions()
+ */
+function easyddb_editorial_dashboard_node_push($node) {
+  $node->field_editorial_status[LANGUAGE_NONE] = array(
+    array(
+      'value' => EDITORIAL_NODE_PUSHED,
+    ),
+  );
+}
+
+/**
+ * Node approve processing.
+ *
+ * @param object $node
+ *   Node object being altered.
+ *
+ * @see _easyddb_editorial_dashboard_action()
+ * @see easyddb_editorial_dashboard_valid_actions()
+ */
+function easyddb_editorial_dashboard_node_approve($node) {
+  $node->field_editorial_status[LANGUAGE_NONE] = array(
+    array(
+      'value' => EDITORIAL_NODE_APPROVED,
+    ),
+  );
+}
+
+/**
+ * Node reject processing.
+ *
+ * @param object $node
+ *   Node object being altered.
+ *
+ * @see _easyddb_editorial_dashboard_action()
+ * @see easyddb_editorial_dashboard_valid_actions()
+ */
+function easyddb_editorial_dashboard_node_reject($node) {
+  $node->field_editorial_status[LANGUAGE_NONE] = array(
+    array(
+      'value' => EDITORIAL_NODE_REJECTED,
+    ),
+  );
+}
+
+/**
+ * Node delete processing.
+ *
+ * @param object $node
+ *   Node object being altered.
+ *
+ * @see _easyddb_editorial_dashboard_action()
+ * @see easyddb_editorial_dashboard_valid_actions()
+ */
+function easyddb_editorial_dashboard_node_delete($node) {
+  $node->field_editorial_status[LANGUAGE_NONE] = array(
+    array(
+      'value' => EDITORIAL_NODE_DELETED,
+    ),
+  );
+}
