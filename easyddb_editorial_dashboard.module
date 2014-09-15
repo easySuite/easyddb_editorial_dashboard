@@ -88,6 +88,7 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
 
   // Node form alterations follow...
   $form['field_editorial_status'][LANGUAGE_NONE]['#disabled'] = TRUE;
+  $form['options']['status']['#disabled'] = TRUE;
 }
 
 /**
@@ -271,12 +272,21 @@ function easyddb_editorial_dashboard_valid_actions() {
  * Act when a node editorial status is changed.
  */
 function easyddb_editorial_dashboard_editorial_status_changed($action, $node) {
-  if ($action == EDITORIAL_ACTION_APPROVE) {
+  $publish = array(EDITORIAL_ACTION_APPROVE);
+  $unpublish = array(EDITORIAL_ACTION_REJECT);
+
+  if (in_array($action, $publish)) {
     $node->status = 1;
   }
-  elseif ($action == EDITORIAL_ACTION_REJECT) {
+  elseif (in_array($action, $unpublish) || $action == EDITORIAL_NODE_NEW) {
     $node->status = 0;
   }
+
+  $t = array(
+    '@title' => $node->title,
+    '@state' => $action,
+  );
+  drupal_set_message(t('Node <em>@title</em> state has been changed to "@state"-ed.', $t));
 }
 
 /**
@@ -296,7 +306,8 @@ function easyddb_editorial_dashboard_views_default_views() {
 function easyddb_editorial_dashboard_workflow($state) {
   $flow = array(
     EDITORIAL_NODE_NEW => array(
-      EDITORIAL_ACTION_PUSH
+      EDITORIAL_ACTION_PUSH,
+      EDITORIAL_ACTION_DELETE,
     ),
     EDITORIAL_NODE_PUSHED => array(
       EDITORIAL_ACTION_APPROVE,
@@ -304,9 +315,9 @@ function easyddb_editorial_dashboard_workflow($state) {
     ),
     EDITORIAL_NODE_APPROVED => array(
       EDITORIAL_ACTION_REJECT,
-      EDITORIAL_ACTION_DELETE,
     ),
     EDITORIAL_NODE_REJECTED => array(
+      EDITORIAL_ACTION_PUSH,
       EDITORIAL_ACTION_DELETE,
     ),
     EDITORIAL_NODE_DELETED => array(

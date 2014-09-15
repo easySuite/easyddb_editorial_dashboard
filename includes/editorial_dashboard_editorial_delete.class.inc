@@ -22,7 +22,12 @@ class editorial_dashboard_editorial_delete extends views_handler_field_node_link
     $this->options['alter']['path'] = "node/$node->nid/editorial/delete";
     $this->options['alter']['query'] = drupal_get_destination();
 
-    $text = !empty($this->options['text']) ? $this->options['text'] : t('delete');
+    $status = $node->field_editorial_status[LANGUAGE_NONE][0]['value'];
+    $actions = easyddb_editorial_dashboard_workflow($status);
+    $text = '';
+    if (in_array(EDITORIAL_ACTION_DELETE, $actions)) {
+      $text = !empty($this->options['text']) ? $this->options['text'] : t('delete');
+    }
 
     return $text;
   }
