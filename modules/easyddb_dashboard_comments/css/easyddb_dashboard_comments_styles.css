@@ -4,18 +4,18 @@
 }
 
 .editorial-comment {
-  border: 1px solid #CCC;
+  border: 1px solid #ccc;
   margin-top: 5px;
   padding: 10px;
 }
 
 .editorial-comment .by,
 .editorial-comment .when {
-  font-style: oblique;
+  font-style: italic;
 }
 
 .editorial-comment .by {
-  font-style: oblique;
+  font-style: italic;
   font-weight: bold;
 }
 
