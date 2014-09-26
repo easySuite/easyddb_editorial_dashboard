@@ -83,6 +83,12 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
   }
 
   if (!$editorial) {
+    // Suppose the bundle was previously a part of editorial system.
+    // In this case the field has no sense, therefore hide it.
+    if (isset($form['field_editorial_status'])) {
+      hide($form['field_editorial_status']);
+    }
+
     return;
   }
 
