@@ -26,10 +26,15 @@ function _easyddb_editorial_dashboard_action($node, $action) {
 
   $callback = 'easyddb_editorial_dashboard' . $valid_actions[$action];
   if (function_exists($callback)) {
-    $callback($node);
+    $result = $callback($node);
 
-    module_invoke_all('editorial_status_changed', $action, $node);
-    node_save($node);
+    if ($result == EDITORIAL_NODE_DELETED) {
+      $form = drupal_get_form('_easyddb_editorial_dashboard_node_delete_confirm', $node);
+
+      return drupal_render($form);
+    }
+
+    _easyddb_editorial_dashboard_node_persist($node, $action);
   }
   else {
     $t = array(
@@ -39,6 +44,21 @@ function _easyddb_editorial_dashboard_action($node, $action) {
   }
 
   drupal_goto($dest['destination']);
+}
+
+/**
+ * Update the node object.
+ *
+ * Notify other modules and call the node API to save the node.
+ *
+ * @param object $node
+ *   Node object.
+ * @param string $action
+ *   Action being produced.
+ */
+function _easyddb_editorial_dashboard_node_persist($node, $action) {
+  module_invoke_all('editorial_status_changed', $action, $node);
+  node_save($node);
 }
 
 /**
@@ -56,6 +76,8 @@ function easyddb_editorial_dashboard_node_push($node) {
       'value' => EDITORIAL_NODE_PUSHED,
     ),
   );
+
+  return EDITORIAL_NODE_PUSHED;
 }
 
 /**
@@ -73,6 +95,8 @@ function easyddb_editorial_dashboard_node_approve($node) {
       'value' => EDITORIAL_NODE_APPROVED,
     ),
   );
+
+  return EDITORIAL_NODE_APPROVED;
 }
 
 /**
@@ -90,6 +114,8 @@ function easyddb_editorial_dashboard_node_reject($node) {
       'value' => EDITORIAL_NODE_REJECTED,
     ),
   );
+
+  return EDITORIAL_NODE_REJECTED;
 }
 
 /**
@@ -107,6 +133,8 @@ function easyddb_editorial_dashboard_node_delete($node) {
       'value' => EDITORIAL_NODE_DELETED,
     ),
   );
+
+  return EDITORIAL_NODE_DELETED;
 }
 
 /**
@@ -124,4 +152,6 @@ function easyddb_editorial_dashboard_node_restore($node) {
       'value' => EDITORIAL_NODE_RESTORED,
     ),
   );
+
+  return EDITORIAL_NODE_RESTORED;
 }

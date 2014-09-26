@@ -17,6 +17,7 @@ define('EDITORIAL_ACTION_PUSH', 'push');
 define('EDITORIAL_ACTION_APPROVE', 'approve');
 define('EDITORIAL_ACTION_REJECT', 'reject');
 define('EDITORIAL_ACTION_DELETE', 'delete');
+define('EDITORIAL_ACTION_DELETE_COMPLETELY', 'delete_c');
 define('EDITORIAL_ACTION_RESTORE', 'restore');
 
 /**
@@ -137,7 +138,7 @@ function easyddb_editorial_dashboard_query_alter($query) {
     // It's required to alter the condition only when All is selected,
     // so only node bundles selected in editorial settings are fetched.
     foreach ($conditions as $condition) {
-      if ($condition['field'] == 'node.type') {
+      if (isset($condition['field']) && $condition['field'] == 'node.type') {
         $not_found = FALSE;
         break;
       }
@@ -292,7 +293,7 @@ function easyddb_editorial_dashboard_editorial_status_changed($action, $node) {
     '@title' => $node->title,
     '@state' => $action,
   );
-  drupal_set_message(t('Node <em>@title</em> state has been changed to "@state"-ed.', $t));
+  drupal_set_message(t('Node <em>@title</em> has been "@state"-ed.', $t));
 }
 
 /**
@@ -309,6 +310,18 @@ function easyddb_editorial_dashboard_views_default_views() {
   return workbench_load_all_exports('easyddb_editorial_dashboard', 'views', 'view.inc', 'view');
 }
 
+/**
+ * Define editorial workflow.
+ *
+ * Each array keys is the state that the node can be.
+ * Each value is an array of possible actions for specific state.
+ *
+ * @param string $state
+ *   Node state.
+ *
+ * @return array
+ *   A set of possible actions than can be performed on current state.
+ */
 function easyddb_editorial_dashboard_workflow($state) {
   $flow = array(
     EDITORIAL_NODE_NEW => array(
@@ -327,7 +340,8 @@ function easyddb_editorial_dashboard_workflow($state) {
       EDITORIAL_ACTION_DELETE,
     ),
     EDITORIAL_NODE_DELETED => array(
-      EDITORIAL_ACTION_RESTORE
+      EDITORIAL_ACTION_RESTORE,
+      EDITORIAL_ACTION_DELETE_COMPLETELY, // @todo Not implemented
     ),
     EDITORIAL_NODE_RESTORED => array(
       EDITORIAL_ACTION_PUSH
@@ -335,4 +349,30 @@ function easyddb_editorial_dashboard_workflow($state) {
   );
 
   return $flow[$state];
+}
+
+/**
+ * Node deletion confirmation.
+ */
+function _easyddb_editorial_dashboard_node_delete_confirm($form, &$form_state, $node) {
+  $question = t('Are you sure to delete <em>@node</em>', array('@node' => $node->title));
+  $path = url('admin/workbench/content/editorial');
+  $description = t('Node will be marked as deleted and will be still available in the system.');
+  $confirm_form = confirm_form($form, $question, $path, $description);
+
+  $form_state['storage']['node'] = $node;
+
+  return $confirm_form;
+}
+
+/**
+ * Node deleteion form submit handler.
+ *
+ * @see _easyddb_editorial_dashboard_node_delete_confirm()
+ */
+function _easyddb_editorial_dashboard_node_delete_confirm_submit(&$form, &$form_state) {
+  $node = $form_state['storage']['node'];
+
+  // Node object here is already marked as deleted, so just save it.
+  node_save($node);
 }
