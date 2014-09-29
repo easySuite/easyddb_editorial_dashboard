@@ -8,24 +8,6 @@
 define('DASHBOARD_COMMENT_WAIT', 3);
 
 /**
- * Implements hook_menu().
- */
-function easyddb_dashboard_comments_menu() {
-  $menu = array();
-
-  $menu['admin/config/editorial/dashboard_comments'] = array(
-    'title' => 'Dashboard comments',
-    'description' => 'Customize dashboard comments settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('easyddb_dashboard_comments_admin'),
-    'access arguments' => array('administer dashboard comments'),
-    'file' => 'easyddb_dashboard_comments.admin.inc',
-  );
-
-  return $menu;
-}
-
-/**
  * Implements hook_permission().
  */
 function easyddb_dashboard_comments_permission() {
@@ -329,11 +311,8 @@ function easyddb_dashboard_comments_node_delete($node) {
  *   User id (uid), the comment author.
  * @param $comment
  *   Comment contents.
- * @param $type
- *   0 for user comments, 1 for system comments.
- *   System comments are not marked or notified via email.
  */
-function easyddb_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment = '', $type = 0) {
+function easyddb_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment = '') {
   if ($nid && $uid && !empty($comment)) {
     db_insert('dashboard_comments')
       ->fields(array(
@@ -341,56 +320,10 @@ function easyddb_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment =
       'uid' => $uid,
       'timestamp' => time(),
       'comment' => check_plain($comment),
-    ))
+      ))
       ->execute();
 
-    // For user comments, place a marker and notify node owner via email.
-    if (!$type) {
-      db_merge('dashboard_comments_notification')
-        ->fields(array(
-        'nid' => $nid,
-        'access' => 0,
-        'luid' => $uid,
-      ))
-        ->condition('nid', $nid, '=')
-        ->execute();
-
-      $notify_via_mail = variable_get('easyddb_dashboard_comments_email', TRUE);
-
-      if ($notify_via_mail) {
-        $user = user_load($uid);
-        $recipients = array();
-        $n = node_load($nid);
-
-        // In case COMMENT author is an editor, notify the NODE author (journalist).
-        if (in_array('editor', $user->roles)) {
-          $node_author = $n->uid;
-          $u = user_load($n->uid);
-
-          if (in_array('journalist', $u->roles)) {
-            $content = theme('comment_mail_notify', array(
-              'header' => t('Comment notification'),
-              'body' => t('User @user_name leaved a comment for content !content_name', array('@user_name' => $user->name, '!content_name' => l($n->title, 'node/' . $n->nid, array('absolute' => TRUE)))),
-              'footer' => t('Alpha (c) @year', array('@year' => date('Y'))),
-            ));
-            module_invoke('easyddb_dashboard_mailer', 'send_mail', $u->mail, $u->name, $content);
-          }
-        }
-        // In case COMMENT author is a journalist, notify ALL the editors.
-        elseif (in_array('journalist', $user->roles)) {
-          $editors = easyddb_editorial_dashboard_get_users_by_role('editor');
-
-          foreach ($editors as $editor) {
-            $content = theme('comment_mail_notify', array(
-              'header' => t('Comment notification'),
-              'body' => t('User @user_name leaved a comment for content !content_name', array('@user_name' => $user->name, '!content_name' => l($n->title, 'node/' . $n->nid, array('absolute' => TRUE)))),
-              'footer' => t('Alpha (c) @year', array('@year' => date('Y'))),
-            ));
-            module_invoke('easyddb_dashboard_mailer', 'send_mail', $editor->mail, $editor->name, $content);
-          }
-        }
-      }
-    }
+    module_invoke('easyddb_dashboard_comments', 'comment_save', $uid, $nid, $comment);
   }
 }
 
