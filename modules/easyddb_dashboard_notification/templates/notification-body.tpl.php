@@ -2,7 +2,7 @@
 /**
  * @file
  *
- * Generic template file for editor mail notifications.
+ * Generic template file for mail notifications.
  */
 ?>
 <div class="notification-mail">
