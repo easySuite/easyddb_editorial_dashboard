@@ -323,7 +323,7 @@ function easyddb_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment =
       ))
       ->execute();
 
-    module_invoke('easyddb_dashboard_comments', 'comment_save', $uid, $nid, $comment);
+    module_invoke_all('easyddb_dashboard_comments_comment_save', $uid, $nid, $comment);
   }
 }
 
