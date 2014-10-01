@@ -11,7 +11,7 @@
 function easyddb_dashboard_notification_menu() {
   $items = array();
 
-  $items['admin/config/ding/dashboard_notification'] = array(
+  $items['admin/config/editorial/dashboard_notification'] = array(
     'title' => 'Dashboard notification',
     'description' => 'View and customize notification settings.',
     'page callback' => 'drupal_get_form',
@@ -50,7 +50,7 @@ function easyddb_dashboard_notification_theme($existing, $type, $theme, $path) {
   );
 
   $hooks['notification_status_changed'] = array(
-    'variables' => array('status' => NULL, 'node' => NULL),
+    'variables' => array('data' => NULL, 'node' => NULL),
   );
 
   $hooks['notification_commented'] = array(
@@ -70,7 +70,7 @@ function easyddb_dashboard_notification_editorial_status_changed($action, $node)
     EDITORIAL_ACTION_APPROVE => array('local editor'),
     EDITORIAL_ACTION_REJECT => array('local editor'),
   );
-
+  watchdog('easyddb_dashboard_notification');
   if (isset($roles[$action])) {
     $theme = 'notification_status_changed';
     easyddb_dashboard_notification_user_notify($action, $node, $roles[$action], $theme);
@@ -81,7 +81,7 @@ function easyddb_dashboard_notification_editorial_status_changed($action, $node)
 /**
  * Implements hook_easyddb_dashboard_comments_comment_save().
  */
-function easyddb_dashboard_notification_editorial_easyddb_dashboard_comments_comment_save($user, $node, $comment) {
+function easyddb_dashboard_notification_easyddb_dashboard_comments_comment_save($user, $node, $comment) {
   $user = user_load($user);
   $node = node_load($node);
 
@@ -113,7 +113,7 @@ function theme_notification_status_changed($vars) {
   $footer = variable_get('easyddb_dashboard_notification_footer', '');
   $params = array(
     'header' => t('Content @title status.', array('@title' => $node->title)),
-    'body' => t('Content !title status set to @status-ed by.', array('!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)), '@status' => $status)),
+    'body' => t('Content !title status set to @status-ed by.', array('!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)), '@status' => $data)),
     'footer' => t($footer, array('@year' => date('Y'))),
   );
   return $params;
@@ -149,15 +149,14 @@ function easyddb_dashboard_notification_user_notify($data, $node, $roles, $theme
   if (!empty($node)) {
     // Get all users with specific role.
     $users = easyddb_dashboard_notification_get_users_by_role($roles);
-
     foreach ($users as $user) {
 
       $params = theme($theme, array(
-        'status' => $data,
+        'data' => $data,
         'node' => $node,
       ));
 
-      $html = theme('notification-body', $params);
+      $html = theme('notification', $params);
 
       easyddb_dashboard_notification_send_mail($user->mail, $user->name, $html);
     }
@@ -180,7 +179,6 @@ function easyddb_dashboard_notification_send_mail($to_address = '', $to_name = '
   $from_address = variable_get('easyddb_dashboard_notification_from_mail', '');
   $from_name = variable_get('easyddb_dashboard_notification_from_name', '');
   $subject = variable_get('easyddb_dashboard_notification_subject', '');
-
   $mailer = new PHPMailer();
   $mailer->IsSendmail();
   $mailer->SetFrom($from_address, $from_name);
