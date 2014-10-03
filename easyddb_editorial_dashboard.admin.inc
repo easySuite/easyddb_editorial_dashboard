@@ -46,7 +46,6 @@ function easyddb_editorial_dashboard_admin_content_types($form, $form_state) {
     '#options' => $node_bundles,
     '#default_value' => variable_get('editorial_content_types', array()),
   );
-
   $form['#submit'][] = 'easyddb_editorial_dashboard_admin_content_types_submit';
 
   return system_settings_form($form);
