@@ -70,7 +70,6 @@ function easyddb_dashboard_notification_editorial_status_changed($action, $node)
     EDITORIAL_ACTION_APPROVE => array('local editor'),
     EDITORIAL_ACTION_REJECT => array('local editor'),
   );
-  watchdog('easyddb_dashboard_notification');
   if (isset($roles[$action])) {
     $theme = 'notification_status_changed';
     easyddb_dashboard_notification_user_notify($action, $node, $roles[$action], $theme);
