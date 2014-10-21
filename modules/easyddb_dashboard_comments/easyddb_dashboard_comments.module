@@ -276,16 +276,8 @@ function easyddb_dashboard_comments_node_update($node) {
         easyddb_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
       }
       else {
-        $message = t('Node @title were edited.', array('@title' => $node->title));
-        if ($node->status !== $node->original->status) {
-          if ($node->status == 0) {
-            $message = t('Node @title were unpublished.', array('@title' => $node->title));
-          }
-          else {
-            $message = t('Node @title were published.', array('@title' => $node->title));
-          }
-        }
-        module_invoke_all('easyddb_dashboard_comments_comment_save', $user->uid, $node->nid, $message);
+        $comment = t('Node were edited.');
+        easyddb_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
       }
     }
   }
@@ -296,17 +288,20 @@ function easyddb_dashboard_comments_node_update($node) {
  */
 function easyddb_dashboard_comments_editorial_status_changed($action, $node) {
   global $user;
-  $message = '';
-  if ($action == 'push') {
-    $message = t('Node @title were pushed.', array('@title' => $node->title));
+  $comment = '';
+  if ($action == EDITORIAL_ACTION_PUSH) {
+    $comment = t('Node were pushed.');
   }
-  elseif ($action == 'approve') {
-    $message = t('Node @title were approved.', array('@title' => $node->title));
+  elseif ($action == EDITORIAL_ACTION_APPROVE) {
+    $comment = t('Node were approved.');
   }
-  elseif ($action == 'reject') {
-    $message = t('Node @title were rejected.', array('@title' => $node->title));
+  elseif ($action == EDITORIAL_ACTION_REJECT) {
+    $comment = t('Node were rejected.');
   }
-  module_invoke_all('easyddb_dashboard_comments_comment_save', $user->uid, $node->nid, $message);
+
+  if ($comment) {
+    easyddb_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
+  }
 }
 
 /**
