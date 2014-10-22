@@ -271,12 +271,36 @@ function easyddb_dashboard_comments_node_update($node) {
     if (in_array($node->type, $node_types) && isset($node->nid)) {
       $comment = isset($node->comments_field) ? $node->comments_field : '';
 
+      global $user;
       if (!empty($comment)) {
-        global $user;
-
+        easyddb_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
+      }
+      else {
+        $comment = t('Node were edited.');
         easyddb_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
       }
     }
+  }
+}
+
+/**
+ * Implements hook_editorial_status_changed().
+ */
+function easyddb_dashboard_comments_editorial_status_changed($action, $node) {
+  global $user;
+  $comment = '';
+  if ($action == EDITORIAL_ACTION_PUSH) {
+    $comment = t('Node were pushed.');
+  }
+  elseif ($action == EDITORIAL_ACTION_APPROVE) {
+    $comment = t('Node were approved.');
+  }
+  elseif ($action == EDITORIAL_ACTION_REJECT) {
+    $comment = t('Node were rejected.');
+  }
+
+  if ($comment) {
+    easyddb_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
   }
 }
 
