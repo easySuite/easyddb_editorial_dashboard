@@ -45,7 +45,8 @@ function easyddb_editorial_dashboard_menu() {
   );
 
   $menu['node/%node/editorial/%'] = array(
-    'access arguments' => array('access content'),
+    'access arguments' => array(1, 3),
+    'access callback' => 'easyddb_editorial_dashboard_access_callback',
     'page callback' => '_easyddb_editorial_dashboard_action',
     'page arguments' => array(1, 3),
     'type' => MENU_CALLBACK,
@@ -66,7 +67,155 @@ function easyddb_editorial_dashboard_permission() {
     'description' => 'Change various editorial settings'
   );
 
+  $perm['push own ed content'] = array(
+    'title' => t('Push own editorial dashboard content.') ,
+    'description' => t('Allow to push own editorial dashboard content.') ,
+  );
+
+  $perm['push any ed content'] = array(
+    'title' => t('Push any editorial dashboard content.') ,
+    'description' => t('Allow to push any editorial dashboard content.') ,
+  );
+
+  $perm['approve own ed content'] = array(
+    'title' => t('Approve own editorial dashboard content.') ,
+    'description' => t('Allow to push approve editorial dashboard content.') ,
+  );
+
+  $perm['approve any ed content'] = array(
+    'title' => t('Approve any editorial dashboard content.') ,
+    'description' => t('Allow to approve any editorial dashboard content.') ,
+  );
+
+  $perm['reject own ed content'] = array(
+    'title' => t('Reject own editorial dashboard content.') ,
+    'description' => t('Allow to reject own editorial dashboard content.') ,
+  );
+
+  $perm['reject any ed content'] = array(
+    'title' => t('Reject own editorial dashboard content.') ,
+    'description' => t('Allow to reject own editorial dashboard content.') ,
+  );
+
+  $perm['restore own ed content'] = array(
+    'title' => t('Restore own editorial dashboard content.') ,
+    'description' => t('Allow to restore own editorial dashboard content.') ,
+  );
+
+  $perm['restore any ed content'] = array(
+    'title' => t('Restore any editorial dashboard content.') ,
+    'description' => t('Allow to restore any editorial dashboard content.') ,
+  );
+
+  $perm['delete own ed content'] = array(
+    'title' => t('Delete own editorial dashboard content.') ,
+    'description' => t('Allow to delete own editorial dashboard content.') ,
+  );
+
+  $perm['delete any ed content'] = array(
+    'title' => t('Delete any editorial dashboard content.') ,
+    'description' => t('Allow to delete any editorial dashboard content.') ,
+  );
+
   return $perm;
+}
+
+/**
+* Implements hook_secure_permissions().
+*/
+function easyddb_editorial_dashboard_secure_permissions($role) {
+  $permissions = array(
+    'guest blogger' => array(
+      'administer editorial dashboard',
+      'push own ed content',
+      'restore own ed content',
+      'delete own ed content',
+    ),
+    'editor' => array(
+      'administer editorial dashboard',
+      'push own ed content',
+      'push any ed content',
+      'approve own ed content',
+      'approve any ed content',
+      'reject own ed content',
+      'reject any ed content',
+      'restore own ed content',
+      'restore any ed content',
+      'delete own ed content',
+      'delete any ed content',
+    ),
+    'local editor' => array(
+      'administer editorial dashboard',
+      'push own ed content',
+      'push any ed content',
+      'approve own ed content',
+      'approve any ed content',
+      'reject own ed content',
+      'reject any ed content',
+      'restore own ed content',
+      'restore any ed content',
+      'delete own ed content',
+      'delete any ed content',
+    ),
+    'local administrator' => array(
+      'administer editorial dashboard',
+      'push own ed content',
+      'push any ed content',
+      'approve own ed content',
+      'approve any ed content',
+      'reject own ed content',
+      'reject any ed content',
+      'restore own ed content',
+      'restore any ed content',
+      'delete own ed content',
+      'delete any ed content',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Access callback for editorial dashboard actions.
+ *
+ * @param nid
+ *  Id of node.
+ * @param action
+ *  Action name.
+ */
+function easyddb_editorial_dashboard_access_callback($node, $action) {
+  global $user;
+  $perms = &drupal_static(__FUNCTION__);
+  if (!isset($perms[$user->uid][$node->nid][$action])) {
+    switch ($action) {
+      case EDITORIAL_ACTION_PUSH:
+        $perms[$user->uid][$node->nid][$action] = (user_access('push any ed content') || (user_access('push own ed content') && $user->uid == $node->uid));
+        break;
+
+      case EDITORIAL_ACTION_APPROVE:
+        $perms[$user->uid][$node->nid][$action] = (user_access('approve any ed content') || (user_access('approve own ed content') && $user->uid == $node->uid));
+        break;
+
+      case EDITORIAL_ACTION_REJECT:
+        $perms[$user->uid][$node->nid][$action] = (user_access('reject any ed content') || (user_access('reject own ed content') && $user->uid == $node->uid));
+        break;
+
+      case EDITORIAL_ACTION_DELETE:
+      case EDITORIAL_ACTION_DELETE_COMPLETELY:
+        $perms[$user->uid][$node->nid][$action] = (user_access('delete any ed content') || (user_access('delete own ed content') && $user->uid == $node->uid));
+        break;
+
+      case EDITORIAL_ACTION_RESTORE:
+        $perms[$user->uid][$node->nid][$action] = (user_access('restore any ed content') || (user_access('restore own ed content') && $user->uid == $node->uid));
+        break;
+
+      default:
+        return FALSE;
+        break;
+    }
+  }
+  return $perms[$user->uid][$node->nid][$action];
 }
 
 /**
