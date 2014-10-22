@@ -9,12 +9,11 @@ class editorial_dashboard_editorial_push extends views_handler_field_node_link {
    * Renders the link.
    */
   function render_link($node, $values) {
-    // @todo
-    // Permissions module.
-    // Ensure user has access to edit this node.
-    /*if (!node_access('update', $node)) {
+    global $user;
+
+    if (!easyddb_editorial_dashboard_access_callback($node, EDITORIAL_ACTION_PUSH))  {
       return;
-    }*/
+    }
 
     // @todo
     // Correct action path.
