@@ -280,31 +280,20 @@ function easyddb_editorial_dashboard_form_views_exposed_form_alter(&$form, &$for
 function easyddb_editorial_dashboard_query_alter($query) {
   if ($query->hasTag('editorial_content')) {
     $conditions =& $query->conditions();
-    // FYI
-    // There is no error here. It's double nested.
-
+    // Don't change number of condition's groups.
     if (!isset($conditions[0]['field'])) {
       return;
     }
     $conditions =& $conditions[0]['field']->conditions();
-
-    if (!isset($conditions[0]['field'])) {
-      return;
-    }
-    $conditions =& $conditions[0]['field']->conditions();
-
-    if (!is_object($conditions)) {
-      return;
-    }
 
     $not_found = TRUE;
-    // See if there is already a type selected.
-    // It's required to alter the condition only when All is selected,
-    // so only node bundles selected in editorial settings are fetched.
     foreach ($conditions as $condition) {
-      if (isset($condition['field']) && $condition['field'] == 'node.type') {
-        $not_found = FALSE;
+      if (isset($condition['field']) && is_object($condition['field']) && get_class($condition['field']) == 'DatabaseCondition')  {
+        $c =& $condition['field']->conditions();
+        if (isset($c['field']) && $c['field'] == 'node.type') {
+           $not_found = FALSE;
         break;
+        }
       }
     }
 
