@@ -282,8 +282,20 @@ function easyddb_editorial_dashboard_query_alter($query) {
     $conditions =& $query->conditions();
     // FYI
     // There is no error here. It's double nested.
+
+    if (!isset($conditions[0]['field'])) {
+      return;
+    }
     $conditions =& $conditions[0]['field']->conditions();
+
+    if (!isset($conditions[0]['field'])) {
+      return;
+    }
     $conditions =& $conditions[0]['field']->conditions();
+
+    if (!is_object($conditions)) {
+      return;
+    }
 
     $not_found = TRUE;
     // See if there is already a type selected.
