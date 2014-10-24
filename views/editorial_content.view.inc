@@ -174,11 +174,16 @@ $handler->display->display_options['sorts']['changed']['id'] = 'changed';
 $handler->display->display_options['sorts']['changed']['table'] = 'node';
 $handler->display->display_options['sorts']['changed']['field'] = 'changed';
 $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
+$handler->display->display_options['filter_groups']['groups'] = array(
+  1 => 'AND',
+  2 => 'OR',
+);
 /* Filter criterion: Content: Title */
 $handler->display->display_options['filters']['title']['id'] = 'title';
 $handler->display->display_options['filters']['title']['table'] = 'node';
 $handler->display->display_options['filters']['title']['field'] = 'title';
 $handler->display->display_options['filters']['title']['operator'] = 'contains';
+$handler->display->display_options['filters']['title']['group'] = 1;
 $handler->display->display_options['filters']['title']['exposed'] = TRUE;
 $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
 $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
@@ -187,6 +192,7 @@ $handler->display->display_options['filters']['title']['expose']['remember'] = T
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
+$handler->display->display_options['filters']['type']['group'] = 1;
 $handler->display->display_options['filters']['type']['exposed'] = TRUE;
 $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
 $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
@@ -196,6 +202,7 @@ $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['value'] = 'All';
+$handler->display->display_options['filters']['status']['group'] = 1;
 $handler->display->display_options['filters']['status']['exposed'] = TRUE;
 $handler->display->display_options['filters']['status']['expose']['operator_id'] = '';
 $handler->display->display_options['filters']['status']['expose']['label'] = 'Published';
@@ -211,10 +218,19 @@ $handler->display->display_options['filters']['status']['expose']['remember_role
   8 => 0,
   9 => 0,
 );
-/* Filter criterion: Content: Published or admin */
-$handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
-$handler->display->display_options['filters']['status_extra']['table'] = 'node';
-$handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
+/* Filter criterion: User: Current */
+$handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['table'] = 'users';
+$handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['relationship'] = 'uid';
+$handler->display->display_options['filters']['uid_current']['value'] = '1';
+$handler->display->display_options['filters']['uid_current']['group'] = 2;
+/* Filter criterion: Content: Published */
+$handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+$handler->display->display_options['filters']['status_1']['table'] = 'node';
+$handler->display->display_options['filters']['status_1']['field'] = 'status';
+$handler->display->display_options['filters']['status_1']['value'] = '1';
+$handler->display->display_options['filters']['status_1']['group'] = 2;
 /* Filter criterion: Content: Editorial status (field_editorial_status) */
 $handler->display->display_options['filters']['field_editorial_status_value']['id'] = 'field_editorial_status_value';
 $handler->display->display_options['filters']['field_editorial_status_value']['table'] = 'field_data_field_editorial_status';
@@ -230,9 +246,10 @@ $handler->display->display_options['filters']['field_editorial_status_value']['v
 );
 $handler->display->display_options['filters']['field_editorial_status_value']['exposed'] = TRUE;
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator_id'] = 'field_editorial_status_value_op';
-$handler->display->display_options['filters']['field_editorial_status_value']['expose']['label'] = 'Status';
+$handler->display->display_options['filters']['field_editorial_status_value']['expose']['label'] = 'Editorial status (field_editorial_status)';
+$handler->display->display_options['filters']['field_editorial_status_value']['expose']['use_operator'] = TRUE;
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator'] = 'field_editorial_status_value_op';
-$handler->display->display_options['filters']['field_editorial_status_value']['expose']['identifier'] = 'ed_status';
+$handler->display->display_options['filters']['field_editorial_status_value']['expose']['identifier'] = 'field_editorial_status_value';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['remember_roles'] = array(
   2 => '2',
   1 => 0,
@@ -243,15 +260,6 @@ $handler->display->display_options['filters']['field_editorial_status_value']['e
   7 => 0,
   8 => 0,
   9 => 0,
-);
-$handler->display->display_options['filters']['field_editorial_status_value']['expose']['reduce'] = TRUE;
-$handler->display->display_options['filters']['field_editorial_status_value']['group_info']['label'] = 'Editorial status (field_editorial_status)';
-$handler->display->display_options['filters']['field_editorial_status_value']['group_info']['identifier'] = 'field_editorial_status_value';
-$handler->display->display_options['filters']['field_editorial_status_value']['group_info']['remember'] = FALSE;
-$handler->display->display_options['filters']['field_editorial_status_value']['group_info']['group_items'] = array(
-  1 => array(),
-  2 => array(),
-  3 => array(),
 );
 
 /* Display: Page */
@@ -375,10 +383,10 @@ $translatables['workbench_new_editorial_content'] = array(
   t('Actions'),
   t('edit'),
   t('Published'),
-  t('Status'),
   t('Editorial status (field_editorial_status)'),
   t('Page'),
   t('more'),
+  t('Status'),
   t('push'),
   t('approve'),
   t('reject'),
