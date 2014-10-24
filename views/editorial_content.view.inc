@@ -3,6 +3,7 @@
  * @file
  * Editorial content view export.
  */
+
 $view = new view();
 $view->name = 'workbench_new_editorial_content';
 $view->description = 'Editorial content overview';
@@ -235,19 +236,9 @@ $handler->display->display_options['filters']['status_1']['group'] = 2;
 $handler->display->display_options['filters']['field_editorial_status_value']['id'] = 'field_editorial_status_value';
 $handler->display->display_options['filters']['field_editorial_status_value']['table'] = 'field_data_field_editorial_status';
 $handler->display->display_options['filters']['field_editorial_status_value']['field'] = 'field_editorial_status_value';
-$handler->display->display_options['filters']['field_editorial_status_value']['value'] = array(
-  'all' => 'all',
-  'ed_new' => 'ed_new',
-  'ed_pushed' => 'ed_pushed',
-  'ed_appr' => 'ed_appr',
-  'ed_rej' => 'ed_rej',
-  'ed_del' => 'ed_del',
-  'ed_res' => 'ed_res',
-);
 $handler->display->display_options['filters']['field_editorial_status_value']['exposed'] = TRUE;
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator_id'] = 'field_editorial_status_value_op';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['label'] = 'Editorial status (field_editorial_status)';
-$handler->display->display_options['filters']['field_editorial_status_value']['expose']['use_operator'] = TRUE;
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator'] = 'field_editorial_status_value_op';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['identifier'] = 'field_editorial_status_value';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['remember_roles'] = array(
