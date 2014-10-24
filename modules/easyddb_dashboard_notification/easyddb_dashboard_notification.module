@@ -38,6 +38,29 @@ function easyddb_dashboard_notification_permission() {
 }
 
 /**
+* Implements hook_secure_permissions().
+*/
+function easyddb_dashboard_notification_secure_permissions($role) {
+  $permissions = array(
+    'guest blogger' => array(
+      'access dashboard notification',
+    ),
+    'editor' => array(
+      'access dashboard notification',
+    ),
+    'local editor' => array(
+      'access dashboard notification',
+    ),
+    'local administrator' => array(
+      'access  dashboard comments',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function easyddb_dashboard_notification_theme($existing, $type, $theme, $path) {

@@ -27,6 +27,33 @@ function easyddb_dashboard_comments_permission() {
 }
 
 /**
+* Implements hook_secure_permissions().
+*/
+function easyddb_dashboard_comments_secure_permissions($role) {
+  $permissions = array(
+    'guest blogger' => array(
+      'administer dashboard comments',
+      'access  dashboard comments',
+    ),
+    'editor' => array(
+     'administer dashboard comments',
+      'access  dashboard comments',
+    ),
+    'local editor' => array(
+      'administer dashboard comments',
+      'access  dashboard comments',
+    ),
+    'local administrator' => array(
+      'administer dashboard comments',
+      'access  dashboard comments',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function easyddb_dashboard_comments_form_alter(&$form, $form_state, $form_id) {
