@@ -11,7 +11,7 @@ class editorial_dashboard_editorial_push extends views_handler_field_node_link {
   function render_link($node, $values) {
     global $user;
 
-    if (!easyddb_editorial_dashboard_access_callback($node, EDITORIAL_ACTION_PUSH))  {
+    if (!easyddb_editorial_dashboard_access_callback($node, EDITORIAL_ACTION_PUSH) || !isset($node->field_editorial_status[LANGUAGE_NONE][0]['value'])) {
       return;
     }
 
