@@ -46,3 +46,20 @@ function easyddb_dashboard_notification_admin_form() {
 
   return system_settings_form($form);
 }
+
+/**
+ * Validate editorial dashboard notification admin form.
+ *
+ * @see easyddb_dashboard_notification_admin_form().
+ */
+function easyddb_dashboard_notification_admin_form_validate($form, &$form_state) {
+  $values = &$form_state['values'];
+
+  if (!filter_var($values['easyddb_dashboard_notification_from_mail'], FILTER_VALIDATE_EMAIL)) {
+    form_set_error('easyddb_dashboard_notification_from_mail', t('Email not valid.'));
+  }
+
+  $values['easyddb_dashboard_notification_from_name'] = check_plain(trim($values['easyddb_dashboard_notification_from_name']));
+  $values['easyddb_dashboard_notification_subject'] = check_plain(trim($values['easyddb_dashboard_notification_subject']));
+  $values['easyddb_dashboard_notification_footer'] = check_plain(trim($values['easyddb_dashboard_notification_footer']));
+}
