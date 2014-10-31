@@ -175,29 +175,12 @@ $handler->display->display_options['sorts']['changed']['id'] = 'changed';
 $handler->display->display_options['sorts']['changed']['table'] = 'node';
 $handler->display->display_options['sorts']['changed']['field'] = 'changed';
 $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
-$handler->display->display_options['filter_groups']['groups'] = array(
-  1 => 'OR',
-  2 => 'AND',
-);
-/* Filter criterion: Content: Published */
-$handler->display->display_options['filters']['status_1']['id'] = 'status_1';
-$handler->display->display_options['filters']['status_1']['table'] = 'node';
-$handler->display->display_options['filters']['status_1']['field'] = 'status';
-$handler->display->display_options['filters']['status_1']['value'] = '1';
-$handler->display->display_options['filters']['status_1']['group'] = 1;
-/* Filter criterion: User: Current */
-$handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
-$handler->display->display_options['filters']['uid_current']['table'] = 'users';
-$handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
-$handler->display->display_options['filters']['uid_current']['relationship'] = 'uid';
-$handler->display->display_options['filters']['uid_current']['value'] = '1';
-$handler->display->display_options['filters']['uid_current']['group'] = 1;
 /* Filter criterion: Content: Title */
 $handler->display->display_options['filters']['title']['id'] = 'title';
 $handler->display->display_options['filters']['title']['table'] = 'node';
 $handler->display->display_options['filters']['title']['field'] = 'title';
 $handler->display->display_options['filters']['title']['operator'] = 'contains';
-$handler->display->display_options['filters']['title']['group'] = 2;
+$handler->display->display_options['filters']['title']['group'] = 1;
 $handler->display->display_options['filters']['title']['exposed'] = TRUE;
 $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
 $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
@@ -206,7 +189,7 @@ $handler->display->display_options['filters']['title']['expose']['remember'] = T
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
 $handler->display->display_options['filters']['type']['field'] = 'type';
-$handler->display->display_options['filters']['type']['group'] = 2;
+$handler->display->display_options['filters']['type']['group'] = 1;
 $handler->display->display_options['filters']['type']['exposed'] = TRUE;
 $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
 $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
@@ -228,7 +211,7 @@ $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['value'] = 'All';
-$handler->display->display_options['filters']['status']['group'] = 2;
+$handler->display->display_options['filters']['status']['group'] = 1;
 $handler->display->display_options['filters']['status']['exposed'] = TRUE;
 $handler->display->display_options['filters']['status']['expose']['operator_id'] = '';
 $handler->display->display_options['filters']['status']['expose']['label'] = 'Published';
@@ -248,7 +231,7 @@ $handler->display->display_options['filters']['status']['expose']['remember_role
 $handler->display->display_options['filters']['field_editorial_status_value']['id'] = 'field_editorial_status_value';
 $handler->display->display_options['filters']['field_editorial_status_value']['table'] = 'field_data_field_editorial_status';
 $handler->display->display_options['filters']['field_editorial_status_value']['field'] = 'field_editorial_status_value';
-$handler->display->display_options['filters']['field_editorial_status_value']['group'] = 2;
+$handler->display->display_options['filters']['field_editorial_status_value']['group'] = 1;
 $handler->display->display_options['filters']['field_editorial_status_value']['exposed'] = TRUE;
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator_id'] = 'field_editorial_status_value_op';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['label'] = 'Editorial status';
@@ -340,14 +323,6 @@ $handler->display->display_options['fields']['ed_reject_node']['label'] = '';
 $handler->display->display_options['fields']['ed_reject_node']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['ed_reject_node']['hide_empty'] = TRUE;
 $handler->display->display_options['fields']['ed_reject_node']['text'] = 'reject';
-/* Field: Content: Editorial Restore link */
-$handler->display->display_options['fields']['ed_restore_node']['id'] = 'ed_restore_node';
-$handler->display->display_options['fields']['ed_restore_node']['table'] = 'views_entity_node';
-$handler->display->display_options['fields']['ed_restore_node']['field'] = 'ed_restore_node';
-$handler->display->display_options['fields']['ed_restore_node']['label'] = '';
-$handler->display->display_options['fields']['ed_restore_node']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['ed_restore_node']['hide_empty'] = TRUE;
-$handler->display->display_options['fields']['ed_restore_node']['text'] = 'restore';
 /* Field: Content: Editorial Delete link */
 $handler->display->display_options['fields']['ed_delete_node']['id'] = 'ed_delete_node';
 $handler->display->display_options['fields']['ed_delete_node']['table'] = 'views_entity_node';
@@ -394,6 +369,5 @@ $translatables['workbench_new_editorial_content'] = array(
   t('push'),
   t('approve'),
   t('reject'),
-  t('restore'),
   t('delete'),
 );
