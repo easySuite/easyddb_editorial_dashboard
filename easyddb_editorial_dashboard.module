@@ -256,7 +256,6 @@ function easyddb_editorial_dashboard_query_alter($query) {
   if ($query->hasTag('editorial_content')) {
     $conditions =& $query->conditions();
 
-
     if (!isset($conditions[0]['field'])) {
       $editorial_types = array_filter(variable_get('editorial_content_types', array()));
       if (!empty($editorial_types)) {
