@@ -255,30 +255,53 @@ function easyddb_editorial_dashboard_form_views_exposed_form_alter(&$form, &$for
 function easyddb_editorial_dashboard_query_alter($query) {
   if ($query->hasTag('editorial_content')) {
     $conditions =& $query->conditions();
-    // Don't change number of condition's groups.
-    if (!isset($conditions[0]['field'])) {
-      return;
-    }
-    $conditions =& $conditions[0]['field']->conditions();
 
-    $not_found = TRUE;
-    foreach ($conditions as $condition) {
-      if (isset($condition['field']) && is_object($condition['field']) && get_class($condition['field']) == 'DatabaseCondition')  {
-        $c =& $condition['field']->conditions();
-        if (isset($c['field']) && $c['field'] == 'node.type') {
-           $not_found = FALSE;
-        break;
-        }
+
+    if (!isset($conditions[0]['field'])) {
+      $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+      if (!empty($editorial_types)) {
+        $conditions[] = array(
+          'field' => 'node.type',
+          'value' => $editorial_types,
+          'operator' => 'IN',
+        );
+      }
+      else {
+        $conditions[] = array(
+          'field' => 'node.type',
+          'value' => $editorial_types,
+          'operator' => 'IN',
+        );
       }
     }
-
-    if ($not_found) {
+    else {
+      $conditions =& $conditions[0]['field']->conditions();
+      $conditions =& $conditions[0]['field']->conditions();
+      $not_found = TRUE;
+      foreach ($conditions as $condition) {
+        if (isset($condition['field']) && is_object($condition['field']) && get_class($condition['field']) == 'DatabaseCondition')  {
+          $c =& $condition['field']->conditions();
+          if (isset($c['field']) && $c['field'] == 'node.type') {
+             $not_found = FALSE;
+          break;
+          }
+        }
+      }
       $editorial_types = array_filter(variable_get('editorial_content_types', array()));
-      $conditions[] = array(
-        'field' => 'node.type',
-        'value' => $editorial_types,
-        'operator' => 'IN',
-      );
+      if ($not_found && !empty($editorial_types)) {
+        $conditions[] = array(
+          'field' => 'node.type',
+          'value' => $editorial_types,
+          'operator' => 'IN',
+        );
+      }
+      else {
+         $conditions[] = array(
+          'field' => '1',
+          'value' => '1',
+          'operator' => '<>',
+        );
+      }
     }
   }
 }
@@ -459,7 +482,7 @@ function easyddb_editorial_dashboard_workflow($state) {
     ),
   );
 
-  return $flow[$state];
+  return isset($flow[$state]) ? $flow[$state] : NULL;
 }
 
 /**
