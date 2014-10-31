@@ -28,12 +28,6 @@ function _easyddb_editorial_dashboard_action($node, $action) {
   if (function_exists($callback)) {
     $result = $callback($node);
 
-    if ($result == EDITORIAL_NODE_DELETED) {
-      $form = drupal_get_form('_easyddb_editorial_dashboard_node_delete_confirm', $node);
-
-      return drupal_render($form);
-    }
-
     _easyddb_editorial_dashboard_node_persist($node, $action);
   }
   else {
@@ -116,42 +110,4 @@ function easyddb_editorial_dashboard_node_reject($node) {
   );
 
   return EDITORIAL_NODE_REJECTED;
-}
-
-/**
- * Node delete processing.
- *
- * @param object $node
- *   Node object being altered.
- *
- * @see _easyddb_editorial_dashboard_action()
- * @see easyddb_editorial_dashboard_valid_actions()
- */
-function easyddb_editorial_dashboard_node_delete($node) {
-  $node->field_editorial_status[LANGUAGE_NONE] = array(
-    array(
-      'value' => EDITORIAL_NODE_DELETED,
-    ),
-  );
-
-  return EDITORIAL_NODE_DELETED;
-}
-
-/**
- * Node restore processing.
- *
- * @param object $node
- *   Node object being altered.
- *
- * @see _easyddb_editorial_dashboard_action()
- * @see easyddb_editorial_dashboard_valid_actions()
- */
-function easyddb_editorial_dashboard_node_restore($node) {
-  $node->field_editorial_status[LANGUAGE_NONE] = array(
-    array(
-      'value' => EDITORIAL_NODE_RESTORED,
-    ),
-  );
-
-  return EDITORIAL_NODE_RESTORED;
 }

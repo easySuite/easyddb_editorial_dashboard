@@ -10,15 +10,11 @@ define('EDITORIAL_NODE_NEW', 'ed_new');
 define('EDITORIAL_NODE_PUSHED', 'ed_pushed');
 define('EDITORIAL_NODE_APPROVED', 'ed_appr');
 define('EDITORIAL_NODE_REJECTED', 'ed_rej');
-define('EDITORIAL_NODE_DELETED', 'ed_del');
-define('EDITORIAL_NODE_RESTORED', 'ed_res');
 
 define('EDITORIAL_ACTION_PUSH', 'push');
 define('EDITORIAL_ACTION_APPROVE', 'approve');
 define('EDITORIAL_ACTION_REJECT', 'reject');
 define('EDITORIAL_ACTION_DELETE', 'delete');
-define('EDITORIAL_ACTION_DELETE_COMPLETELY', 'delete_c');
-define('EDITORIAL_ACTION_RESTORE', 'restore');
 
 /**
  * Implements hook_menu().
@@ -97,16 +93,6 @@ function easyddb_editorial_dashboard_permission() {
     'description' => t('Allow to reject own editorial dashboard content.') ,
   );
 
-  $perm['restore own ed content'] = array(
-    'title' => t('Restore own editorial dashboard content.') ,
-    'description' => t('Allow to restore own editorial dashboard content.') ,
-  );
-
-  $perm['restore any ed content'] = array(
-    'title' => t('Restore any editorial dashboard content.') ,
-    'description' => t('Allow to restore any editorial dashboard content.') ,
-  );
-
   $perm['delete own ed content'] = array(
     'title' => t('Delete own editorial dashboard content.') ,
     'description' => t('Allow to delete own editorial dashboard content.') ,
@@ -128,7 +114,6 @@ function easyddb_editorial_dashboard_secure_permissions($role) {
     'guest blogger' => array(
       'administer editorial dashboard',
       'push own ed content',
-      'restore own ed content',
       'delete own ed content',
     ),
     'editor' => array(
@@ -139,8 +124,6 @@ function easyddb_editorial_dashboard_secure_permissions($role) {
       'approve any ed content',
       'reject own ed content',
       'reject any ed content',
-      'restore own ed content',
-      'restore any ed content',
       'delete own ed content',
       'delete any ed content',
     ),
@@ -152,8 +135,6 @@ function easyddb_editorial_dashboard_secure_permissions($role) {
       'approve any ed content',
       'reject own ed content',
       'reject any ed content',
-      'restore own ed content',
-      'restore any ed content',
       'delete own ed content',
       'delete any ed content',
     ),
@@ -165,8 +146,6 @@ function easyddb_editorial_dashboard_secure_permissions($role) {
       'approve any ed content',
       'reject own ed content',
       'reject any ed content',
-      'restore own ed content',
-      'restore any ed content',
       'delete own ed content',
       'delete any ed content',
     ),
@@ -202,12 +181,7 @@ function easyddb_editorial_dashboard_access_callback($node, $action) {
         break;
 
       case EDITORIAL_ACTION_DELETE:
-      case EDITORIAL_ACTION_DELETE_COMPLETELY:
         $perms[$user->uid][$node->nid][$action] = (user_access('delete any ed content') || (user_access('delete own ed content') && $user->uid == $node->uid));
-        break;
-
-      case EDITORIAL_ACTION_RESTORE:
-        $perms[$user->uid][$node->nid][$action] = (user_access('restore any ed content') || (user_access('restore own ed content') && $user->uid == $node->uid));
         break;
 
       default:
@@ -398,14 +372,6 @@ function easyddb_editorial_dashboard_views_data() {
     ),
   );
 
-  $data['views_entity_node']['ed_restore_node'] = array(
-    'field' => array(
-      'title' => t('Editorial Restore link'),
-      'help' => t('Provide a simple link to restore the content from deleted state in editorial system.'),
-      'handler' => 'editorial_dashboard_editorial_restore',
-    ),
-  );
-
   return $data;
 }
 
@@ -420,8 +386,6 @@ function easyddb_editorial_dashboard_valid_actions() {
     EDITORIAL_ACTION_PUSH => '_node_push',
     EDITORIAL_ACTION_APPROVE => '_node_approve',
     EDITORIAL_ACTION_REJECT => '_node_reject',
-    EDITORIAL_ACTION_DELETE => '_node_delete',
-    EDITORIAL_ACTION_RESTORE => '_node_restore',
   );
 
   return $actions;
@@ -492,13 +456,6 @@ function easyddb_editorial_dashboard_workflow($state) {
     EDITORIAL_NODE_REJECTED => array(
       EDITORIAL_ACTION_PUSH,
       EDITORIAL_ACTION_DELETE,
-    ),
-    EDITORIAL_NODE_DELETED => array(
-      EDITORIAL_ACTION_RESTORE,
-      EDITORIAL_ACTION_DELETE_COMPLETELY, // @todo Not implemented
-    ),
-    EDITORIAL_NODE_RESTORED => array(
-      EDITORIAL_ACTION_PUSH
     ),
   );
 

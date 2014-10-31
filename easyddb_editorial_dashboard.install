@@ -22,8 +22,6 @@ function easyddb_editorial_dashboard_install() {
         EDITORIAL_NODE_PUSHED => 'Pushed',
         EDITORIAL_NODE_APPROVED => 'Approved',
         EDITORIAL_NODE_REJECTED => 'Rejected',
-        EDITORIAL_NODE_DELETED => 'Deleted',
-        EDITORIAL_NODE_RESTORED => 'Restored',
       ),
     ),
   );
@@ -32,8 +30,6 @@ function easyddb_editorial_dashboard_install() {
   t('Pushed');
   t('Approved');
   t('Rejected');
-  t('Deleted');
-  t('Restored');
 
   field_create_field($field_definition);
 }

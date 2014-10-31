@@ -18,7 +18,7 @@ class editorial_dashboard_editorial_delete extends views_handler_field_node_link
     // @todo
     // Correct action path.
     $this->options['alter']['make_link'] = TRUE;
-    $this->options['alter']['path'] = "node/$node->nid/editorial/delete";
+    $this->options['alter']['path'] = "node/$node->nid/delete";
     $this->options['alter']['query'] = drupal_get_destination();
 
     $status = $node->field_editorial_status[LANGUAGE_NONE][0]['value'];
