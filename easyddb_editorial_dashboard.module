@@ -245,9 +245,10 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
   // Node form alterations follow...
   $form['field_editorial_status'][LANGUAGE_NONE]['#disabled'] = TRUE;
   $form['options']['status']['#disabled'] = TRUE;
-
-  // Set by default unpublish.
-  $form['options']['status']['#default_value'] = 0;
+  // Set by default unpublish if it is  creation form of node.
+  if (!isset($form['#node']->nid)) {
+    $form['options']['status']['#default_value'] = 0;
+  }
 }
 
 /**
