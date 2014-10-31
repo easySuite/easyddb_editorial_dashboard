@@ -192,6 +192,16 @@ $handler->display->display_options['filters']['uid_current']['field'] = 'uid_cur
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'uid';
 $handler->display->display_options['filters']['uid_current']['value'] = '1';
 $handler->display->display_options['filters']['uid_current']['group'] = 1;
+/* Filter criterion: Content: Title */
+$handler->display->display_options['filters']['title']['id'] = 'title';
+$handler->display->display_options['filters']['title']['table'] = 'node';
+$handler->display->display_options['filters']['title']['field'] = 'title';
+$handler->display->display_options['filters']['title']['operator'] = 'contains';
+$handler->display->display_options['filters']['title']['group'] = 2;
+$handler->display->display_options['filters']['title']['exposed'] = TRUE;
+$handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
+$handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+$handler->display->display_options['filters']['title']['expose']['remember'] = TRUE;
 /* Filter criterion: Content: Type */
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -213,16 +223,6 @@ $handler->display->display_options['filters']['type']['expose']['remember_roles'
   8 => 0,
   9 => 0,
 );
-/* Filter criterion: Content: Title */
-$handler->display->display_options['filters']['title']['id'] = 'title';
-$handler->display->display_options['filters']['title']['table'] = 'node';
-$handler->display->display_options['filters']['title']['field'] = 'title';
-$handler->display->display_options['filters']['title']['operator'] = 'contains';
-$handler->display->display_options['filters']['title']['group'] = 2;
-$handler->display->display_options['filters']['title']['exposed'] = TRUE;
-$handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
-$handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
-$handler->display->display_options['filters']['title']['expose']['remember'] = TRUE;
 /* Filter criterion: Content: Published */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -251,16 +251,16 @@ $handler->display->display_options['filters']['field_editorial_status_value']['f
 $handler->display->display_options['filters']['field_editorial_status_value']['group'] = 2;
 $handler->display->display_options['filters']['field_editorial_status_value']['exposed'] = TRUE;
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator_id'] = 'field_editorial_status_value_op';
-$handler->display->display_options['filters']['field_editorial_status_value']['expose']['label'] = 'Editorial status (field_editorial_status)';
+$handler->display->display_options['filters']['field_editorial_status_value']['expose']['label'] = 'Editorial status';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['operator'] = 'field_editorial_status_value_op';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['identifier'] = 'field_editorial_status_value';
 $handler->display->display_options['filters']['field_editorial_status_value']['expose']['remember_roles'] = array(
   2 => '2',
   1 => 0,
-  3 => 0,
   4 => 0,
   5 => 0,
   6 => 0,
+  3 => 0,
   7 => 0,
   8 => 0,
   9 => 0,
@@ -387,7 +387,7 @@ $translatables['workbench_new_editorial_content'] = array(
   t('Actions'),
   t('edit'),
   t('Published'),
-  t('Editorial status (field_editorial_status)'),
+  t('Editorial status'),
   t('Page'),
   t('more'),
   t('Status'),
