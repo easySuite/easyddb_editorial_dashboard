@@ -267,9 +267,9 @@ function easyddb_editorial_dashboard_query_alter($query) {
       }
       else {
         $conditions[] = array(
-          'field' => 'node.type',
-          'value' => $editorial_types,
-          'operator' => 'IN',
+          'field' => '1',
+          'value' => '1',
+          'operator' => '<>',
         );
       }
     }
@@ -295,7 +295,7 @@ function easyddb_editorial_dashboard_query_alter($query) {
         );
       }
       else {
-         $conditions[] = array(
+        $conditions[] = array(
           'field' => '1',
           'value' => '1',
           'operator' => '<>',

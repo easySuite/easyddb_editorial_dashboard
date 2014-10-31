@@ -248,6 +248,28 @@ $handler->display->display_options['filters']['field_editorial_status_value']['e
   8 => 0,
   9 => 0,
 );
+/* Filter criterion: User: Current */
+$handler->display->display_options['filters']['uid_current']['id'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['table'] = 'users';
+$handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['relationship'] = 'uid';
+$handler->display->display_options['filters']['uid_current']['value'] = '1';
+$handler->display->display_options['filters']['uid_current']['exposed'] = TRUE;
+$handler->display->display_options['filters']['uid_current']['expose']['operator_id'] = '';
+$handler->display->display_options['filters']['uid_current']['expose']['label'] = 'My content';
+$handler->display->display_options['filters']['uid_current']['expose']['operator'] = 'uid_current_op';
+$handler->display->display_options['filters']['uid_current']['expose']['identifier'] = 'uid_current';
+$handler->display->display_options['filters']['uid_current']['expose']['remember_roles'] = array(
+  2 => '2',
+  1 => 0,
+  3 => 0,
+  4 => 0,
+  5 => 0,
+  6 => 0,
+  7 => 0,
+  8 => 0,
+  9 => 0,
+);
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page_1');
@@ -363,6 +385,7 @@ $translatables['workbench_new_editorial_content'] = array(
   t('edit'),
   t('Published'),
   t('Editorial status'),
+  t('My content'),
   t('Page'),
   t('more'),
   t('Status'),
