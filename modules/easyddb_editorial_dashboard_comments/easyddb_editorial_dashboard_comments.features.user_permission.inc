@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * easyddb_dashboard_comments.features.user_permission.inc
+ * easyddb_editorial_dashboard_comments.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function easyddb_dashboard_comments_user_default_permissions() {
+function easyddb_editorial_dashboard_comments_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: access dashboard comments.
@@ -19,7 +19,7 @@ function easyddb_dashboard_comments_user_default_permissions() {
       2 => 'journalist',
       3 => 'local administrator',
     ),
-    'module' => 'easyddb_dashboard_comments',
+    'module' => 'easyddb_editorial_dashboard_comments',
   );
 
   // Exported permission: administer dashboard comments.
@@ -31,7 +31,7 @@ function easyddb_dashboard_comments_user_default_permissions() {
       2 => 'journalist',
       3 => 'local administrator',
     ),
-    'module' => 'easyddb_dashboard_comments',
+    'module' => 'easyddb_editorial_dashboard_comments',
   );
 
   return $permissions;

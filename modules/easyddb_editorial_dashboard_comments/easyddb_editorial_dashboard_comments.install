@@ -8,11 +8,10 @@
 /**
  * Implements hook_schema().
  */
-
-function easyddb_dashboard_comments_schema() {
+function easyddb_editorial_dashboard_comments_schema() {
   $schema = array();
 
-  $schema['dashboard_comments'] = array(
+  $schema['editorial_dashboard_comments'] = array(
     'description' => 'Hold editorial comments for a certain node.',
     'fields' => array(
       'cid' => array(
@@ -50,7 +49,7 @@ function easyddb_dashboard_comments_schema() {
     ),
   );
 
-  $schema['dashboard_comments_notification'] = array(
+  $schema['editorial_dashboard_comments_notification'] = array(
     'description' => 'Store whether the editorial comments were accessed.',
     'fields' => array(
       'cnid' => array(
