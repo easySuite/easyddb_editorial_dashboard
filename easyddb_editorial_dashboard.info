@@ -4,6 +4,7 @@ package = EasyDDB
 core = 7.x
 version = 7.x-0.1
 dependencies[] = views
+dependencies[] = views_ui
 dependencies[] = workbench
 files[] = "includes/editorial_dashboard_editorial_push.class.inc"
 files[] = "includes/editorial_dashboard_editorial_approve.class.inc"

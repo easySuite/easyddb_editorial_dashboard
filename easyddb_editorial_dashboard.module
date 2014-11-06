@@ -316,7 +316,7 @@ function easyddb_editorial_dashboard_query_alter($query) {
  * @return mixed
  *   Number of nodes altered, FALSE on error.
  */
-function easyddb_editorial_dashboard_reset_nodes($type, $status = EDITORIAL_NODE_NEW) {
+function easyddb_editorial_dashboard_prepare_nodes($type) {
   if (!is_array($type)) {
     $type = array($type);
   }
@@ -339,12 +339,14 @@ function easyddb_editorial_dashboard_reset_nodes($type, $status = EDITORIAL_NODE
 
   $count = 0;
   foreach ($nodes as $node) {
+    $published = $node->status;
+    $ed_status = $published ? EDITORIAL_NODE_APPROVED : EDITORIAL_NODE_NEW;
     $node->field_editorial_status[LANGUAGE_NONE] = array(
       array(
-        'value' => $status,
+        'value' => $ed_status,
       ),
     );
-    module_invoke_all('editorial_status_changed', $status, $node);
+    module_invoke_all('editorial_status_changed', $ed_status, $node);
     node_save($node);
     $count++;
   }

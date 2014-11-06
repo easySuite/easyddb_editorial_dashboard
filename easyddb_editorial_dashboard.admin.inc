@@ -115,7 +115,7 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
   // For node bundles that are selected first time, reset all their nodes
   // to New editorial status.
   $new_types = array_diff($node_types, $last_setting);
-  $altered = easyddb_editorial_dashboard_reset_nodes($new_types);
+  $altered = easyddb_editorial_dashboard_prepare_nodes($new_types);
   if (is_int($altered)) {
     $t = array(
       '@count' => $altered
