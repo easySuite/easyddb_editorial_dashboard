@@ -11,6 +11,6 @@
  *
  * @comment Comment body.
  */
-function hook_easyddb_dashboard_comments_comment_save($user, $node, $comment) {
+function hook_easyddb_editorial_dashboard_comments_comment_save($user, $node, $comment) {
 
 }

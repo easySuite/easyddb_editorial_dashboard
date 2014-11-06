@@ -8,16 +8,16 @@
 /**
  * Implements hook_menu().
  */
-function easyddb_dashboard_notification_menu() {
+function easyddb_editorial_dashboard_notification_menu() {
   $items = array();
 
   $items['admin/config/editorial/dashboard_notification'] = array(
     'title' => 'Dashboard notification',
     'description' => 'View and customize notification settings.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('easyddb_dashboard_notification_admin_form'),
+    'page arguments' => array('easyddb_editorial_dashboard_notification_admin_form'),
     'access arguments' => array('access dashboard notification'),
-    'file' => 'easyddb_dashboard_notification.admin.inc',
+    'file' => 'easyddb_editorial_dashboard_notification.admin.inc',
   );
 
   return $items;
@@ -26,7 +26,7 @@ function easyddb_dashboard_notification_menu() {
 /**
  * Implements hook_permission().
  */
-function easyddb_dashboard_notification_permission() {
+function easyddb_editorial_dashboard_notification_permission() {
   $perm = array();
 
   $perm['access dashboard notification'] = array(
@@ -38,9 +38,9 @@ function easyddb_dashboard_notification_permission() {
 }
 
 /**
-* Implements hook_secure_permissions().
-*/
-function easyddb_dashboard_notification_secure_permissions($role) {
+ * Implements hook_secure_permissions().
+ */
+function easyddb_editorial_dashboard_notification_secure_permissions($role) {
   $permissions = array(
     'guest blogger' => array(
       'access dashboard notification',
@@ -63,7 +63,7 @@ function easyddb_dashboard_notification_secure_permissions($role) {
 /**
  * Implements hook_theme().
  */
-function easyddb_dashboard_notification_theme($existing, $type, $theme, $path) {
+function easyddb_editorial_dashboard_notification_theme($existing, $type, $theme, $path) {
   $hooks = array();
 
   $hooks['notification'] = array(
@@ -86,7 +86,7 @@ function easyddb_dashboard_notification_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_editorial_status_changed().
  */
-function easyddb_dashboard_notification_editorial_status_changed($action, $node) {
+function easyddb_editorial_dashboard_notification_editorial_status_changed($action, $node) {
   // @todo Make some static array or define admin form.
   $roles = array(
     EDITORIAL_ACTION_PUSH => array('editor'),
@@ -95,15 +95,15 @@ function easyddb_dashboard_notification_editorial_status_changed($action, $node)
   );
   if (isset($roles[$action])) {
     $theme = 'notification_status_changed';
-    easyddb_dashboard_notification_user_notify($action, $node, $roles[$action], $theme);
+    easyddb_editorial_dashboard_notification_user_notify($action, $node, $roles[$action], $theme);
   }
 
 }
 
 /**
- * Implements hook_easyddb_dashboard_comments_comment_save().
+ * Implements hook_easyddb_editorial_dashboard_comments_comment_save().
  */
-function easyddb_dashboard_notification_easyddb_dashboard_comments_comment_save($user, $node, $comment) {
+function easyddb_editorial_dashboard_notification_easyddb_editorial_dashboard_comments_comment_save($user, $node, $comment) {
   $user = user_load($user);
   $node = node_load($node);
 
@@ -121,7 +121,7 @@ function easyddb_dashboard_notification_easyddb_dashboard_comments_comment_save(
       'comment' => $comment,
     );
     $theme = 'notification_commented';
-    easyddb_dashboard_notification_user_notify($data, $node, $role, $theme);
+    easyddb_editorial_dashboard_notification_user_notify($data, $node, $role, $theme);
   }
 
 }
@@ -132,7 +132,7 @@ function easyddb_dashboard_notification_easyddb_dashboard_comments_comment_save(
 function theme_notification_status_changed($vars) {
   extract($vars);
 
-  $footer = variable_get('easyddb_dashboard_notification_footer', '');
+  $footer = variable_get('easyddb_editorial_dashboard_notification_footer', '');
   $params = array(
     'header' => t('Content @title status.', array('@title' => $node->title)),
     'body' => t('Content !title status set to @status-ed by.', array('!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)), '@status' => $data)),
@@ -148,7 +148,7 @@ function theme_notification_commented($vars) {
   global $user;
 
   extract($vars);
-  $footer = variable_get('easyddb_dashboard_notification_footer', '');
+  $footer = variable_get('easyddb_editorial_dashboard_notification_footer', '');
 
   $params = array(
     'header' => t('Content @title commented.', array('@title' => $node->title)),
@@ -167,10 +167,10 @@ function theme_notification_commented($vars) {
  * @param $uid
  *   Array of user id's
  */
-function easyddb_dashboard_notification_user_notify($data, $node, $roles, $theme) {
+function easyddb_editorial_dashboard_notification_user_notify($data, $node, $roles, $theme) {
   if (!empty($node)) {
     // Get all users with specific role.
-    $users = easyddb_dashboard_notification_get_users_by_role($roles);
+    $users = easyddb_editorial_dashboard_notification_get_users_by_role($roles);
     foreach ($users as $user) {
 
       $params = theme($theme, array(
@@ -180,7 +180,7 @@ function easyddb_dashboard_notification_user_notify($data, $node, $roles, $theme
 
       $html = theme('notification', $params);
 
-      easyddb_dashboard_notification_send_mail($user->mail, $user->name, $html);
+      easyddb_editorial_dashboard_notification_send_mail($user->mail, $user->name, $html);
     }
   }
 }
@@ -188,7 +188,7 @@ function easyddb_dashboard_notification_user_notify($data, $node, $roles, $theme
 /**
  * Send an email.
  *
- * @see easyddb_dashboard_notification_admin_form.
+ * @see easyddb_editorial_dashboard_notification_admin_form.
  *
  * @param $to_address
  *   Recipient mail address.
@@ -197,10 +197,10 @@ function easyddb_dashboard_notification_user_notify($data, $node, $roles, $theme
  * @param $content
  *   Mail content, can be HTML.
  */
-function easyddb_dashboard_notification_send_mail($to_address = '', $to_name = '', $content = '') {
-  $from_address = variable_get('easyddb_dashboard_notification_from_mail', '');
-  $from_name = variable_get('easyddb_dashboard_notification_from_name', '');
-  $subject = variable_get('easyddb_dashboard_notification_subject', '');
+function easyddb_editorial_dashboard_notification_send_mail($to_address = '', $to_name = '', $content = '') {
+  $from_address = variable_get('easyddb_editorial_dashboard_notification_from_mail', '');
+  $from_name = variable_get('easyddb_editorial_dashboard_notification_from_name', '');
+  $subject = variable_get('easyddb_editorial_dashboard_notification_subject', '');
   $mailer = new PHPMailer();
   $mailer->IsSendmail();
   $mailer->SetFrom($from_address, $from_name);
@@ -216,7 +216,7 @@ function easyddb_dashboard_notification_send_mail($to_address = '', $to_name = '
  * @return
  *   Array of users indexed by user id (uid).
  */
-function easyddb_dashboard_notification_get_users_by_role($roles = array()) {
+function easyddb_editorial_dashboard_notification_get_users_by_role($roles = array()) {
 
   $query = db_select('users', 'u');
   $query->join('users_roles', 'ur', 'u.uid=ur.uid');

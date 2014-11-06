@@ -193,6 +193,29 @@ function easyddb_editorial_dashboard_access_callback($node, $action) {
 }
 
 /**
+ * Implements hook_node_access().
+ *
+ * Overrides certain node permissions for node types that are of editorial type.
+ */
+function easyddb_editorial_dashboard_node_access($node, $op, $account) {
+  $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+  $state = NODE_ACCESS_IGNORE;
+
+  if (is_object($node) && in_array($node->type, $editorial_types)) {
+    switch ($op) {
+      case 'delete':
+        $access = easyddb_editorial_dashboard_access_callback($node, EDITORIAL_ACTION_DELETE);
+        if ($access === TRUE) {
+          $state = NODE_ACCESS_ALLOW;
+        }
+        break;
+    }
+  }
+
+  return $state;
+}
+
+/**
  * Impement hook_form_BASE_FORM_ID_alter().
  */
 function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, $form_id) {
