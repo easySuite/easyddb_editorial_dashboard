@@ -203,6 +203,12 @@ function easyddb_editorial_dashboard_node_access($node, $op, $account) {
 
   if (is_object($node) && in_array($node->type, $editorial_types)) {
     switch ($op) {
+      case 'update':
+        $ed_status = $node->field_editorial_status[LANGUAGE_NONE][0]['value'];
+        if ($ed_status == EDITORIAL_NODE_APPROVED && in_array('guest blogger', $account->roles) && $node->uid == $account->uid) {
+          $state = NODE_ACCESS_DENY;
+        }
+        break;
       case 'delete':
         $access = easyddb_editorial_dashboard_access_callback($node, EDITORIAL_ACTION_DELETE);
         if ($access === TRUE) {
