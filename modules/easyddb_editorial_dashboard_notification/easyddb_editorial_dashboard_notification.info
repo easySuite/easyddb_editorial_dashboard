@@ -1,9 +1,9 @@
-name = "Dashboard Notification"
+name = "Editorial dashboard Notification"
 description = "Wrapper for e-mailing needs."
 core = "7.x"
-version = "0.1"
+version = "7.x-0.1"
 package = "easyDDB"
-configure = admin/config/ding/dashboard_mailer
+configure = admin/config/editorial/dashboard_notification
 dependencies[] = "easyddb_editorial_dashboard"
 features[user_permission][] = "access dashboard mailer"
 files[] = "lib/class.phpmailer.php"
