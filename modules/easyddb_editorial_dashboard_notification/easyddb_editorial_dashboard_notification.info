@@ -1,4 +1,4 @@
-name = "Editorial dashboard Notification"
+name = "easyDDB Editorial Dashboard Notification"
 description = "Wrapper for e-mailing needs."
 core = "7.x"
 version = "7.x-0.1"
