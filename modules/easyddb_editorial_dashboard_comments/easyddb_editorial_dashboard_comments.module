@@ -342,7 +342,7 @@ function easyddb_editorial_dashboard_comments_node_delete($node) {
       }
     }
     if (in_array($node->type, $node_types) && isset($node->nid)) {
-      db_delete('dashboard_comments')
+      db_delete('editorial_dashboard_comments')
         ->condition('nid', $node->nid, '=')
         ->execute();
     }
