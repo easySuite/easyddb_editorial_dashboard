@@ -14,9 +14,4 @@
   <p class="comment">
     <?php print $comment; ?>
   </p>
-  <?php if ($comment_l2) { ?>
-  <p class="comment">
-    <?php print $comment_l2; ?>
-  </p>
-  <?php } ?>
 </div>

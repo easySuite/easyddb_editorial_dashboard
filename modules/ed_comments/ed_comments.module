@@ -1,0 +1,192 @@
+<?php
+
+/**
+ * Implements hook_field_info().
+ */
+function ed_comments_field_info() {
+  return array(
+    'ed_comments' => array(
+      'label' => t('Ed comments'),
+      'description' => t("Editorial dashboard comment."),
+      'settings' => array(),
+      'default_widget' => 'ed_comments_widget',
+      'default_formatter' => 'ed_comments_formatter',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_validate().
+ */
+function ed_comments_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  foreach ($items as $delta => $item) {
+    if (!empty($item['comment'])) {
+    }
+  }
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function ed_comments_field_is_empty($item, $field) {
+  return empty($item['comment']);
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ed_comments_field_formatter_info() {
+  return array(
+    'ed_comments_formatter' => array(
+      'label' => t('ED comment formater'),
+      'field types' => array('ed_comments'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ed_comments_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+  switch ($display['type']) {
+    case 'ed_comments_formatter':
+      foreach ($items as $delta => $item) {
+      }
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function ed_comments_field_widget_info() {
+   return array(
+    'ed_comments_widget' => array(
+      'label' => t('Ed comments'),
+      'field types' => array('ed_comments'),
+      'settings' => array('size' => 60),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default value' => FIELD_BEHAVIOR_NONE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function ed_comments_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  global $user;
+
+  if (!isset($form['nid']['#value']) || empty($form['nid']['#value'])) {
+    return;
+  }
+
+  $widget = $element;
+  $widget['#delta'] = $delta;
+
+  if (isset($items[$delta]['comment'])) {
+    $username = db_query('SELECT name FROM users WHERE uid = :uid', array(':uid' => $items[$delta]['uid']))->fetchColumn();
+
+    $vars = array(
+      'comment' => $items[$delta]['comment'],
+      'user' => $username,
+      'date' => date('Y-m-d', $items[$delta]['timestamp'])
+    );
+    $widget[$delta]['rendered'] = array(
+      '#markup' => theme('ed_comment', $vars),
+    );
+
+    $widget['comment'] = array(
+      '#type' => 'value',
+      '#value' => isset($items[$delta]['comment']) ? $items[$delta]['comment'] : '',
+    );
+
+    $widget['uid'] = array(
+      '#type' => 'value',
+      '#value' => isset($items[$delta]['uid']) ? $items[$delta]['uid'] : '',
+    );
+
+    $widget['timestamp'] = array(
+      '#type' => 'value',
+      '#value' => isset($items[$delta]['timestamp']) ? $items[$delta]['timestamp'] : '',
+    );
+
+    $widget['access'] = array(
+      '#type' => 'value',
+      '#value' => isset($items[$delta]['access']) ? $items[$delta]['access'] : '',
+    );
+  }
+  else {
+    $widget['comment'] = array(
+      '#type' => 'textarea',
+      '#default_value' => isset($items[$delta]) ? $items[$delta] : '',
+    );
+
+    $widget['uid'] = array(
+      '#type' => 'value',
+      '#value' => $user->uid,
+    );
+
+    $widget['timestamp'] = array(
+      '#type' => 'value',
+      '#value' => time(),
+    );
+
+    $widget['access'] = array(
+      '#type' => 'value',
+      '#value' => 0,
+    );
+
+    $widget['is_new'] = array(
+      '#type' => 'value',
+      '#value' => TRUE,
+    );
+  }
+
+  $element = $widget;
+  return $element;
+}
+
+/**
+ * Implements hook_field_widget_error().
+ */
+function ed_comments_field_widget_error($element, $error, $form, &$form_state) {
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ed_comments_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['ed_comment'] = array(
+    'variables' => array(),
+    'template' => 'ed_comment',
+    'path' => $path . '/templates',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_node_submit().
+ */
+function ed_comments_node_submit($node, $form, &$form_state) {
+  $types = variable_get('editorial_content_types', array());
+  $values = $form_state['values'];
+
+  if (in_array($values['type'], $types) && !empty($values["field_comments"])) {
+    foreach ($values["field_comments"][LANGUAGE_NONE] as $comment) {
+      if (isset($comment['is_new'])) {
+        module_invoke_all('ed_comments_commented', $comment['uid'], $comment['nid'], $comment['comment']);
+      }
+    }
+  }
+}

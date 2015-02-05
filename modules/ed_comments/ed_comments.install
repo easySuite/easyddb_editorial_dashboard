@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Implements hook_field_schema().
+ */
+function ed_comments_field_schema($field) {
+  $columns = $indexes = array();
+  $columns = array(
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'timestamp' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'comment' => array(
+        'type' => 'text',
+        'size' => 'big',
+      ),
+      'access' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'size' => 'tiny',
+        'default' => 0,
+      ),
+    );
+
+  $indexes = array(
+     'idx_uid' => array('uid'),
+  );
+return array(
+    'columns' => $columns,
+    'indexes' => $indexes,
+  );
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function ed_comments_update_7001(&$sandbox) {
+
+}
