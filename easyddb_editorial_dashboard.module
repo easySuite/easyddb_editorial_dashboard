@@ -53,6 +53,32 @@ function easyddb_editorial_dashboard_menu() {
 }
 
 /**
+ * Implements hook_local_tasks_alter().
+ */
+function easyddb_editorial_dashboard_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  // Seems that tabs[0] are local actions (tabs)
+  // and tabs[1] are local tasks (links).
+  if (!isset($data['tabs'][1])) {
+    return;
+  }
+
+  $action_active = FALSE;
+  // The trick is to redirect when no local task is active.
+  // This is true when just the local action was clicked.
+  foreach ($data['tabs'][1]['output'] as $action) {
+    if (isset($action['#active'])) {
+      $action_active = TRUE;
+    }
+  }
+
+  // @todo
+  // The indeces are somewhat hardcoded for current solution.
+  if (!$action_active && isset($data['tabs'][1]['output'][2]['#link']['path'])) {
+    drupal_goto($data['tabs'][1]['output'][2]['#link']['path']);
+  }
+}
+
+/**
  * Implements hook_permission().
  */
 function easyddb_editorial_dashboard_permission() {
