@@ -486,12 +486,6 @@ function easyddb_editorial_dashboard_editorial_status_changed($action, $node) {
   elseif (in_array($action, $unpublish) || $action == EDITORIAL_NODE_NEW) {
     $node->status = 0;
   }
-
-  $t = array(
-    '@title' => $node->title,
-    '@state' => $action,
-  );
-  drupal_set_message(t('Node <em>@title</em> has been "@state"-ed.', $t));
 }
 
 /**
