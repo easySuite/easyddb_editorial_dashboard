@@ -567,3 +567,16 @@ function _easyddb_editorial_dashboard_node_delete_confirm_submit(&$form, &$form_
   // Node object here is already marked as deleted, so just save it.
   node_save($node);
 }
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function easyddb_editorial_dashboard_views_pre_render(&$view) {
+  if ($view->name == 'workbench_new_editorial_content') {
+    foreach ($view->field['edit_node']->entities as $key => $entity) {
+      if ($entity->field_editorial_status[LANGUAGE_NONE][0]['value'] == EDITORIAL_NODE_PUSHED) {
+        unset($view->field['edit_node']->entities[$key]);
+      }
+    }
+  }
+}
