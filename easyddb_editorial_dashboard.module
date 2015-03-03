@@ -138,7 +138,6 @@ function easyddb_editorial_dashboard_permission() {
 function easyddb_editorial_dashboard_secure_permissions($role) {
   $permissions = array(
     'guest blogger' => array(
-      'administer editorial dashboard',
       'push own ed content',
       'delete own ed content',
     ),
