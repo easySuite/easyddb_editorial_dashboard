@@ -118,8 +118,8 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
   $altered = easyddb_editorial_dashboard_prepare_nodes($new_types);
   if (is_int($altered)) {
     $t = array(
-      '@count' => $altered
+      '@count' => $altered,
     );
-    drupal_set_message(t('@count nodes have been added to editorial system as new.', $t));
+    drupal_set_message(t('@count nodes have been marked to editorial system.', $t));
   }
 }

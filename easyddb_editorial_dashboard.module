@@ -53,6 +53,32 @@ function easyddb_editorial_dashboard_menu() {
 }
 
 /**
+ * Implements hook_local_tasks_alter().
+ */
+function easyddb_editorial_dashboard_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  // Seems that tabs[0] are local actions (tabs)
+  // and tabs[1] are local tasks (links).
+  if (!isset($data['tabs'][1])) {
+    return;
+  }
+
+  $action_active = FALSE;
+  // The trick is to redirect when no local task is active.
+  // This is true when just the local action was clicked.
+  foreach ($data['tabs'][1]['output'] as $action) {
+    if (isset($action['#active'])) {
+      $action_active = TRUE;
+    }
+  }
+
+  // @todo
+  // The indeces are somewhat hardcoded for current solution.
+  if (!$action_active && isset($data['tabs'][1]['output'][2]['#link']['path'])) {
+    drupal_goto($data['tabs'][1]['output'][2]['#link']['path']);
+  }
+}
+
+/**
  * Implements hook_permission().
  */
 function easyddb_editorial_dashboard_permission() {
@@ -112,7 +138,6 @@ function easyddb_editorial_dashboard_permission() {
 function easyddb_editorial_dashboard_secure_permissions($role) {
   $permissions = array(
     'guest blogger' => array(
-      'administer editorial dashboard',
       'push own ed content',
       'delete own ed content',
     ),
@@ -200,12 +225,13 @@ function easyddb_editorial_dashboard_access_callback($node, $action) {
 function easyddb_editorial_dashboard_node_access($node, $op, $account) {
   $editorial_types = array_filter(variable_get('editorial_content_types', array()));
   $state = NODE_ACCESS_IGNORE;
+  $ed_states = array(EDITORIAL_NODE_APPROVED, EDITORIAL_NODE_PUSHED);
 
   if (is_object($node) && in_array($node->type, $editorial_types)) {
     switch ($op) {
       case 'update':
         $ed_status = $node->field_editorial_status[LANGUAGE_NONE][0]['value'];
-        if ($ed_status == EDITORIAL_NODE_APPROVED && in_array('guest blogger', $account->roles) && $node->uid == $account->uid) {
+        if (in_array($ed_status, $ed_states) && in_array('guest blogger', $account->roles) && $node->uid == $account->uid) {
           $state = NODE_ACCESS_DENY;
         }
         break;
@@ -460,12 +486,6 @@ function easyddb_editorial_dashboard_editorial_status_changed($action, $node) {
   elseif (in_array($action, $unpublish) || $action == EDITORIAL_NODE_NEW) {
     $node->status = 0;
   }
-
-  $t = array(
-    '@title' => $node->title,
-    '@state' => $action,
-  );
-  drupal_set_message(t('Node <em>@title</em> has been "@state"-ed.', $t));
 }
 
 /**

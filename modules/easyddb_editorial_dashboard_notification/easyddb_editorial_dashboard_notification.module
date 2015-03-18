@@ -42,9 +42,6 @@ function easyddb_editorial_dashboard_notification_permission() {
  */
 function easyddb_editorial_dashboard_notification_secure_permissions($role) {
   $permissions = array(
-    'guest blogger' => array(
-      'access dashboard notification',
-    ),
     'editor' => array(
       'access dashboard notification',
     ),
