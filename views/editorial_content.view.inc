@@ -329,7 +329,7 @@ $handler->display->display_options['fields']['ed_push_node']['field'] = 'ed_push
 $handler->display->display_options['fields']['ed_push_node']['label'] = '';
 $handler->display->display_options['fields']['ed_push_node']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['ed_push_node']['hide_empty'] = TRUE;
-$handler->display->display_options['fields']['ed_push_node']['text'] = 'push';
+$handler->display->display_options['fields']['ed_push_node']['text'] = 'push for approval';
 /* Field: Content: Editorial Approve link */
 $handler->display->display_options['fields']['ed_approve_node']['id'] = 'ed_approve_node';
 $handler->display->display_options['fields']['ed_approve_node']['table'] = 'views_entity_node';
@@ -389,7 +389,7 @@ $translatables['workbench_new_editorial_content'] = array(
   t('Page'),
   t('more'),
   t('Status'),
-  t('push'),
+  t('push for approval'),
   t('approve'),
   t('reject'),
   t('delete'),
