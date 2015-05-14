@@ -34,15 +34,143 @@ function ed_comments_field_schema($field) {
   $indexes = array(
      'idx_uid' => array('uid'),
   );
-return array(
+  return array(
     'columns' => $columns,
     'indexes' => $indexes,
   );
 }
 
 /**
- * Implements hook_update_N().
+ * Implements hook_install().
  */
-function ed_comments_update_7001(&$sandbox) {
+function ed_comments_install() {
+  if (!field_info_field('ed_comments'))
+    field_info_cache_clear();
 
+  $field_definition = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ed_comments',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'idx_uid' => array(
+        0 => 'uid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => '',
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'ed_comments',
+    'module' => 'ed_comments',
+  );
+  field_create_field($field_definition);
+
+  migrate_comments();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ed_comments_uninstall() {
+  $node_types = node_type_get_types();
+  $node_bundles = array();
+
+  foreach ($node_types as $type) {
+    $node_bundles[$type->type] = $type->name;
+    if ($field = field_info_instance('node', 'field_ed_comments', $type->type)) {
+      $t = array(
+        '@instance' => $field['label'],
+        '@bundle' => $field['bundle'],
+      );
+
+      try {
+        field_delete_instance($field);
+      } catch (Exception $e) {
+        watchdog_exception('editorial', $e, t('Exception thrown when deleting field instance @instance for bundle @bundle.'), $t, WATCHDOG_CRITICAL);
+      }
+    }
+  }
+
+  field_delete_field('field_ed_comments');
+}
+
+/**
+ * Migrate comments from previous version.
+ */
+function migrate_comments() {
+  if (!db_table_exists('editorial_dashboard_comments'))
+    return;
+
+  $node_types = array_filter(variable_get('editorial_content_types', array()));
+
+  if (count($node_types) == 0) {
+    return;
+  }
+
+  $instance = array(
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => '',
+        'settings' => array(),
+        'type' => 'ed_comments_formatter',
+        'weight' => 9,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ed_comments',
+    'label' => 'ed_comments',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => '',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'ed_comments_widget',
+      'weight' => 31,
+    ),
+  );
+
+  foreach ($node_types as $type) {
+    if (!field_read_instance('node', $instance['field_name'], $type)) {
+      $instance['bundle'] = $type;
+      try {
+        field_create_instance($instance);
+      }
+      catch (FieldException $e) {
+        return;
+      }
+    }
+  }
+
+  $q = db_select('editorial_dashboard_comments', 'c');
+  $q->innerJoin('node', 'n', 'n.nid=c.nid');
+  $q->fields('c');
+  $q->fields('n', array('type'));
+  $comments = $q->execute()->fetchAll();
+
+  foreach ($comments as $comments) {
+    $node = new stdClass();
+    $node->nid = $comment->nid;
+    $node->type = $comment->type;
+    $node->field_comments[LANGUAGE_NONE][0] = array(
+      'uid' => $comment->uid,
+      'timestamp' => $comment->timestamp,
+      'comment' => $comment->comment,
+      'access' => TRUE,
+    );
+    field_attach_presave('node', $node);
+    field_attach_update('node', $node);
+  }
 }

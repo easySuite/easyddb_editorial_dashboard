@@ -101,9 +101,9 @@ function easyddb_editorial_dashboard_notification_editorial_status_changed($acti
 }
 
 /**
- * Implements hook_easyddb_editorial_dashboard_comments_comment_save().
+ * Implements hook_ed_comments_commented().
  */
-function easyddb_editorial_dashboard_notification_easyddb_editorial_dashboard_comments_comment_save($user, $node, $comment) {
+function easyddb_editorial_dashboard_notification_ed_comments_commented($user, $node, $comment) {
   $user = user_load($user);
   $node = node_load($node);
 

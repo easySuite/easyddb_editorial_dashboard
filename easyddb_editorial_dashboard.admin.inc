@@ -33,7 +33,6 @@ function easyddb_editorial_dashboard_admin_menu_block_page() {
  */
 function easyddb_editorial_dashboard_admin_content_types($form, $form_state) {
   $node_types = node_type_get_types();
-  $node_bundles = array();
 
   foreach ($node_types as $type) {
     $node_bundles[$type->type] = $type->name;
@@ -66,8 +65,57 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
     return;
   }
 
-  $instance_definition = array(
-    'label' => 'Editorial status',
+  $instances = _easyddb_editorial_dashboard_get_instances();
+
+  // For each selected node bundle, create a field instance and attach it.
+  foreach ($node_types as $type => $status) {
+    foreach ($instances as $name => $definition) {
+      if (!field_read_instance('node', $name, $type) && $status != NULL) {
+        $definition['bundle'] = $type;
+
+        $error = FALSE;
+
+        $t = array(
+          '@instance' => $definition['label'],
+          '@bundle' => $definition['bundle'],
+        );
+
+        try {
+          field_create_instance($definition);
+        }
+        catch (Exception $e) {
+          $error = TRUE;
+          watchdog_exception('editorial', $e, t('Exception thrown when creating field instance @instance for bundle @bundle.'), $t, WATCHDOG_CRITICAL);
+          drupal_set_message(t('Error when creating field instance @instance for bundle @bundle.', $t), 'error');
+        }
+
+        if (!$error) {
+
+          drupal_set_message(t('Field instance @instance for bundle @bundle created successfully.', $t));
+        }
+      }
+    }
+  }
+
+  // For node bundles that are selected first time, reset all their nodes
+  // to New editorial status.
+  $new_types = array_diff($node_types, $last_setting);
+  $altered = easyddb_editorial_dashboard_prepare_nodes($new_types);
+  if (is_int($altered)) {
+    $t = array(
+      '@count' => $altered
+    );
+    drupal_set_message(t('@count nodes have been added to editorial system as new.', $t));
+  }
+}
+
+/**
+ * Returns array of instances.
+ */
+function _easyddb_editorial_dashboard_get_instances() {
+  $instances = array();
+  $instances['field_editorial_status'] = array(
+    'label' => t('Editorial status'),
     'field_name' => 'field_editorial_status',
     'entity_type' => 'node',
     'default_value' => array(
@@ -85,41 +133,36 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
     ),
   );
 
-  // For each selected node bundle, create a field instance and attach it.
-  foreach ($node_types as $type) {
-    if (!field_read_instance('node', 'field_editorial_status', $type)) {
-      $instance_definition['bundle'] = $type;
-
-      $t = array(
-        '@instance' => $instance_definition['label'],
-        '@bundle' => $instance_definition['bundle'],
-      );
-
-      $error = FALSE;
-
-      try {
-        field_create_instance($instance_definition);
-      }
-      catch (FieldException $e) {
-        $error = TRUE;
-        watchdog_exception('editorial', $e, t('Exception thrown when creating field instance @instance for bundle @bundle.'), $t, WATCHDOG_CRITICAL);
-        drupal_set_message(t('Error when creating field instance @instance for bundle @bundle.', $t), 'error');
-      }
-
-      if (!$error) {
-        drupal_set_message(t('Field instance @instance for bundle @bundle created successfully.', $t));
-      }
-    }
-  }
-
-  // For node bundles that are selected first time, reset all their nodes
-  // to New editorial status.
-  $new_types = array_diff($node_types, $last_setting);
-  $altered = easyddb_editorial_dashboard_prepare_nodes($new_types);
-  if (is_int($altered)) {
-    $t = array(
-      '@count' => $altered
+  if (module_exists('ed_comments')) {
+    $instances['field_ed_comments'] = array(
+      'deleted' => 0,
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => '',
+          'settings' => array(),
+          'type' => 'ed_comments_formatter',
+          'weight' => 9,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_ed_comments',
+      'label' => 'ed_comments',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => '',
+        'settings' => array(
+          'size' => 60,
+        ),
+        'type' => 'ed_comments_widget',
+        'weight' => 31,
+      ),
     );
-    drupal_set_message(t('@count nodes have been added to editorial system as new.', $t));
   }
+  return $instances;
 }
