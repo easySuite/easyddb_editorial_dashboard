@@ -67,7 +67,8 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
   foreach ($node_types as $type => $status) {
     foreach ($instances as $name => $definition) {
       $error = FALSE;
-      if (!field_read_instance('node', $name, $type) && $status != NULL) {
+      $field = field_read_instance('node', $name, $type);
+      if (!$field && $status != NULL) {
         $definition['bundle'] = $type;
 
         $t = array(
@@ -88,7 +89,7 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
           drupal_set_message(t('Field instance @instance for bundle @bundle created successfully.', $t));
         }
       }
-      elseif (($field = field_read_instance('node', $name, $type)) && $status == NULL) {
+      elseif ($field && $status == NULL) {
         $t = array(
           '@instance' => $field['label'],
           '@bundle' => $field['bundle'],
