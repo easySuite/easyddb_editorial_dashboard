@@ -98,6 +98,7 @@ function ed_comments_field_widget_form(&$form, &$form_state, $field, $instance, 
       'user' => $username,
       'date' => date('Y-m-d', $items[$delta]['timestamp'])
     );
+
     $widget[$delta]['rendered'] = array(
       '#markup' => theme('ed_comment', $vars),
     );
