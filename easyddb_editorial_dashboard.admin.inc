@@ -58,22 +58,17 @@ function easyddb_editorial_dashboard_admin_content_types($form, $form_state) {
  */
 function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_state) {
   $input = $form_state['input'];
-  $node_types = array_filter($input['editorial_content_types']);
+  $node_types = $input['editorial_content_types'];
   $last_setting = array_filter(variable_get('editorial_content_types', array()));
-
-  if (count($node_types) == 0) {
-    return;
-  }
 
   $instances = _easyddb_editorial_dashboard_get_instances();
 
   // For each selected node bundle, create a field instance and attach it.
   foreach ($node_types as $type => $status) {
     foreach ($instances as $name => $definition) {
+      $error = FALSE;
       if (!field_read_instance('node', $name, $type) && $status != NULL) {
         $definition['bundle'] = $type;
-
-        $error = FALSE;
 
         $t = array(
           '@instance' => $definition['label'],
@@ -85,14 +80,33 @@ function easyddb_editorial_dashboard_admin_content_types_submit($form, $form_sta
         }
         catch (Exception $e) {
           $error = TRUE;
-          watchdog_exception('editorial', $e, t('Exception thrown when creating field instance @instance for bundle @bundle.'), $t, WATCHDOG_CRITICAL);
+          watchdog_exception('editorial dashboard', $e, t('Exception thrown when creating field instance @instance for bundle @bundle.'), $t, WATCHDOG_CRITICAL);
           drupal_set_message(t('Error when creating field instance @instance for bundle @bundle.', $t), 'error');
         }
 
         if (!$error) {
-
           drupal_set_message(t('Field instance @instance for bundle @bundle created successfully.', $t));
         }
+      }
+      elseif (($field = field_read_instance('node', $name, $type)) && $status == NULL) {
+        $t = array(
+          '@instance' => $field['label'],
+          '@bundle' => $field['bundle'],
+        );
+
+        try {
+          field_delete_instance($field, FALSE);
+        }
+        catch (Exception $e) {
+          $error = TRUE;
+          watchdog_exception('editorial dashboard', $e, t('Exception thrown when deleting field instance @instance for bundle @bundle.'), $t, WATCHDOG_CRITICAL);
+          drupal_set_message(t('Error when deleting field instance @instance for bundle @bundle.', $t), 'error');
+        }
+
+        if (!$error) {
+          drupal_set_message(t('Field instance @instance for bundle @bundle deleted successfully.', $t));
+        }
+
       }
     }
   }
