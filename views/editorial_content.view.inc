@@ -253,7 +253,7 @@ $handler->display->display_options['filters']['uid_current']['id'] = 'uid_curren
 $handler->display->display_options['filters']['uid_current']['table'] = 'users';
 $handler->display->display_options['filters']['uid_current']['field'] = 'uid_current';
 $handler->display->display_options['filters']['uid_current']['relationship'] = 'uid';
-$handler->display->display_options['filters']['uid_current']['value'] = '1';
+$handler->display->display_options['filters']['uid_current']['value'] = 'All';
 $handler->display->display_options['filters']['uid_current']['exposed'] = TRUE;
 $handler->display->display_options['filters']['uid_current']['expose']['operator_id'] = '';
 $handler->display->display_options['filters']['uid_current']['expose']['label'] = 'My content';
@@ -329,7 +329,7 @@ $handler->display->display_options['fields']['ed_push_node']['field'] = 'ed_push
 $handler->display->display_options['fields']['ed_push_node']['label'] = '';
 $handler->display->display_options['fields']['ed_push_node']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['ed_push_node']['hide_empty'] = TRUE;
-$handler->display->display_options['fields']['ed_push_node']['text'] = 'push';
+$handler->display->display_options['fields']['ed_push_node']['text'] = 'push for approval';
 /* Field: Content: Editorial Approve link */
 $handler->display->display_options['fields']['ed_approve_node']['id'] = 'ed_approve_node';
 $handler->display->display_options['fields']['ed_approve_node']['table'] = 'views_entity_node';
@@ -389,7 +389,7 @@ $translatables['workbench_new_editorial_content'] = array(
   t('Page'),
   t('more'),
   t('Status'),
-  t('push'),
+  t('push for approval'),
   t('approve'),
   t('reject'),
   t('delete'),
