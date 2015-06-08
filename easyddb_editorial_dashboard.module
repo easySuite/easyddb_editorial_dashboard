@@ -271,6 +271,35 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
     return;
   }
 
+  $push_permission = user_access('push any ed content') || user_access('push own ed content');
+  $approve_permission = user_access('approve any ed content') || user_access('approve own ed content');
+
+  if ($push_permission) {
+    $form['actions']['save_push'] = array(
+      '#type' => 'submit',
+      '#access' => TRUE,
+      '#value' => t('Save and push to ED'),
+      '#weight' => 15,
+      '#submit' => array(
+        'node_form_submit',
+        'editorial_dashboard_save_push_submit',
+      ),
+    );
+  }
+
+  if ($approve_permission) {
+    $form['actions']['save_approve'] = array(
+      '#type' => 'submit',
+      '#access' => TRUE,
+      '#value' => t('Save and approve to ED'),
+      '#weight' => 15,
+      '#submit' => array(
+        'node_form_submit',
+        'editorial_dashboard_save_approve_submit',
+      ),
+    );
+  }
+
   // Node form alterations follow...
   $form['field_editorial_status'][LANGUAGE_NONE]['#disabled'] = TRUE;
   $form['options']['status']['#disabled'] = TRUE;
@@ -278,6 +307,26 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
   if (!isset($form['#node']->nid)) {
     $form['options']['status']['#default_value'] = 0;
   }
+}
+
+/**
+ * Submit function push content into ED.
+ *
+ * @see easyddb_editorial_dashboard_form_node_form_alter().
+ */
+function editorial_dashboard_save_push_submit(&$form, &$form_state) {
+  module_load_include('inc', 'easyddb_editorial_dashboard', 'easyddb_editorial_dashboard.pages');
+  _easyddb_editorial_dashboard_action($form['#node'], 'push');
+}
+
+/**
+ * Submit function approve content into ED.
+ *
+ * @see easyddb_editorial_dashboard_form_node_form_alter().
+ */
+function editorial_dashboard_save_approve_submit(&$form, &$form_state) {
+  module_load_include('inc', 'easyddb_editorial_dashboard', 'easyddb_editorial_dashboard.pages');
+  _easyddb_editorial_dashboard_action($form['#node'], 'approve');
 }
 
 /**
