@@ -582,6 +582,11 @@ function easyddb_editorial_dashboard_workflow($state) {
     ),
   );
 
+  $approve_permission = user_access('approve any ed content') || user_access('approve own ed content');
+  if ($approve_permission && $state != EDITORIAL_NODE_APPROVED) {
+    return array(EDITORIAL_ACTION_APPROVE);
+  }
+
   return isset($flow[$state]) ? $flow[$state] : NULL;
 }
 
