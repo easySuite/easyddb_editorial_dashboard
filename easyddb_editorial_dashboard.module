@@ -271,8 +271,8 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
     return;
   }
 
-  $push_permission = user_access('push any ed content') || user_access('push own ed content');
-  $approve_permission = user_access('approve any ed content') || user_access('approve own ed content');
+  $push_permission = user_access('push any ed content');
+  $approve_permission = user_access('approve any ed content');
 
   if ($push_permission) {
     $form['actions']['save_push'] = array(
@@ -582,7 +582,7 @@ function easyddb_editorial_dashboard_workflow($state) {
     ),
   );
 
-  $approve_permission = user_access('approve any ed content') || user_access('approve own ed content');
+  $approve_permission = user_access('approve any ed content');
   if ($approve_permission && $state != EDITORIAL_NODE_APPROVED) {
     return array(EDITORIAL_ACTION_APPROVE);
   }
