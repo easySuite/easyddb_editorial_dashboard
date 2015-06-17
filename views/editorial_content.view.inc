@@ -353,6 +353,10 @@ $handler->display->display_options['fields']['ed_delete_node']['label'] = '';
 $handler->display->display_options['fields']['ed_delete_node']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['ed_delete_node']['hide_empty'] = TRUE;
 $handler->display->display_options['fields']['ed_delete_node']['text'] = 'delete';
+/* Field: BPI: BPI status field and action */
+$handler->display->display_options['fields']['status_1']['id'] = 'status_1';
+$handler->display->display_options['fields']['status_1']['table'] = 'bpi_syndicated';
+$handler->display->display_options['fields']['status_1']['field'] = 'status';
 $handler->display->display_options['path'] = 'admin/workbench/content/editorial';
 $handler->display->display_options['menu']['type'] = 'tab';
 $handler->display->display_options['menu']['title'] = 'Editorial content';
@@ -393,4 +397,5 @@ $translatables['workbench_new_editorial_content'] = array(
   t('approve'),
   t('reject'),
   t('delete'),
+  t('BPI status field and action'),
 );
