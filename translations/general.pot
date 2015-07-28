@@ -3,28 +3,28 @@
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
-#  easyddb_editorial_dashboard.admin.inc: n/a
-#  easyddb_editorial_dashboard.pages.inc: n/a
-#  easyddb_editorial_dashboard.module: n/a
-#  easyddb_editorial_dashboard.install: n/a
-#  easyddb_editorial_dashboard.info: n/a
-#  modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info: n/a
-#  modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info: n/a
-#  includes/editorial_dashboard_editorial_approve.class.inc: n/a
-#  views/editorial_content.view.inc: n/a
-#  includes/editorial_dashboard_editorial_delete.class.inc: n/a
-#  includes/editorial_dashboard_editorial_push.class.inc: n/a
-#  includes/editorial_dashboard_editorial_reject.class.inc: n/a
-#  modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module: n/a
-#  modules/easyddb_editorial_dashboard_comments/templates/easyddb_editorial_dashboard_single_comment.tpl.php: n/a
-#  modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc: n/a
-#  modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.pages.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.install: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.info: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_approve.class.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_delete.class.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_push.class.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_reject.class.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/templates/easyddb_editorial_dashboard_single_comment.tpl.php: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc: n/a
+#  profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module: n/a
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-02-19 16:15+0100\n"
+"POT-Creation-Date: 2015-07-28 11:34+0300\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -33,431 +33,443 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: easyddb_editorial_dashboard.admin.inc:22
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc:22
 msgid "You do not have any administrative items."
 msgstr ""
 
-#: easyddb_editorial_dashboard.admin.inc:44
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc:44
 msgid "Available node types"
 msgstr ""
 
-#: easyddb_editorial_dashboard.admin.inc:45
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc:45
 msgid "Select which nodes should be a part of editorial system"
 msgstr ""
 
-#: easyddb_editorial_dashboard.admin.inc:105
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc:105
 msgid "Exception thrown when creating field instance @instance for bundle @bundle."
 msgstr ""
 
-#: easyddb_editorial_dashboard.admin.inc:106
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc:106
 msgid "Error when creating field instance @instance for bundle @bundle."
 msgstr ""
 
-#: easyddb_editorial_dashboard.admin.inc:110
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc:110
 msgid "Field instance @instance for bundle @bundle created successfully."
 msgstr ""
 
-#: easyddb_editorial_dashboard.admin.inc:123
-msgid "@count nodes have been added to editorial system as new."
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.admin.inc:123
+msgid "@count nodes have been marked to editorial system."
 msgstr ""
 
-#: easyddb_editorial_dashboard.pages.inc:23
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.pages.inc:23
 msgid "Unknown action @action requested."
 msgstr ""
 
-#: easyddb_editorial_dashboard.pages.inc:37
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.pages.inc:37
 msgid "No such @callback() method defined."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:93
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:93
 msgid "Push own editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:94
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:94
 msgid "Allow to push own editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:98
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:98
 msgid "Push any editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:99
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:99
 msgid "Allow to push any editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:103
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:103
 msgid "Approve own editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:104
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:104
 msgid "Allow to push approve editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:108
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:108
 msgid "Approve any editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:109
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:109
 msgid "Allow to approve any editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:113;118
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:113;118
 msgid "Reject own editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:114;119
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:114;119
 msgid "Allow to reject own editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:123
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:123
 msgid "Delete own editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:124
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:124
 msgid "Allow to delete own editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:128
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:128
 msgid "Delete any editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:129
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:129
 msgid "Allow to delete any editorial dashboard content."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:425
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:281
+msgid "Save and push to ED"
+msgstr ""
+
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:294
+msgid "Save and approve to ED"
+msgstr ""
+
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:474
 msgid "Editorial Push link"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:426
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:475
 msgid "Provide a simple link to push the content in editorial system."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:433
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:482
 msgid "Editorial Approve link"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:434
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:483
 msgid "Provide a simple link to approve the content in editorial system."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:441
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:490
 msgid "Editorial Reject link"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:442
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:491
 msgid "Provide a simple link to reject the content in editorial system."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:449
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:498
 msgid "Editorial Delete link"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:450
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:499
 msgid "Provide a simple link to delete the content from editorial system."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:494
-msgid "Node <em>@title</em> has been \"@state\"-ed."
-msgstr ""
-
-#: easyddb_editorial_dashboard.module:549
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:597
 msgid "Are you sure to delete <em>@node</em>"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:551
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:599
 msgid "Node will be marked as deleted and will be still available in the system."
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:26
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:26
 msgid "Editorial Dashboard"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:27
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:27
 msgid "Editorial settings"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:35
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:35
 msgid "Content types"
 msgstr ""
 
-#: easyddb_editorial_dashboard.module:36
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.module:36
 msgid "Define which content types are a part of editorial system"
 msgstr ""
 
-#: easyddb_editorial_dashboard.install:29
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.install:29
 msgid "New"
 msgstr ""
 
-#: easyddb_editorial_dashboard.install:30
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.install:30
 msgid "Pushed"
 msgstr ""
 
-#: easyddb_editorial_dashboard.install:31
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.install:31
 msgid "Approved"
 msgstr ""
 
-#: easyddb_editorial_dashboard.install:32
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.install:32
 msgid "Rejected"
 msgstr ""
 
-#: easyddb_editorial_dashboard.info:0
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.info:0
 msgid "easyDDB Editorial Dashboard"
 msgstr ""
 
-#: easyddb_editorial_dashboard.info:0
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.info:0
 msgid "Provides editorial content features."
 msgstr ""
 
-#: easyddb_editorial_dashboard.info:0 modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0 modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
+#: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.info:0 profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0 profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
 msgid "easyDDB"
 msgstr ""
 
-#: includes/editorial_dashboard_editorial_approve.class.inc:28 views/editorial_content.view.inc:393
+#: profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_approve.class.inc:28 profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:397
 msgid "approve"
 msgstr ""
 
-#: includes/editorial_dashboard_editorial_delete.class.inc:28 views/editorial_content.view.inc:395
+#: profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_delete.class.inc:28 profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:399
 msgid "delete"
 msgstr ""
 
-#: includes/editorial_dashboard_editorial_push.class.inc:28 views/editorial_content.view.inc:392
+#: profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_push.class.inc:28
 msgid "push"
 msgstr ""
 
-#: includes/editorial_dashboard_editorial_reject.class.inc:29 views/editorial_content.view.inc:394
+#: profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_reject.class.inc:29 profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:398
 msgid "reject"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:17
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:17
 msgid "Administer dashboard comments"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:18
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:18
 msgid "Check this to allow certain roles to edit comments settings."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:22
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:22
 msgid "Allow commenting"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:23
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:23
 msgid "Check this to allow view of comments and commenting."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:71
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:71
 msgid "Editorial comments"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:85
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:85
 msgid "Your comment"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:316
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:316
 msgid "Node was pushed."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:319
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:319
 msgid "Node was approved."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:322
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.module:322
 msgid "Node was rejected."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0
 msgid "easyDDB Editorial Dashboard Comments"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0
 msgid "Automated and user comments on a node edit page."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/templates/easyddb_editorial_dashboard_single_comment.tpl.php:11
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/templates/easyddb_editorial_dashboard_single_comment.tpl.php:11
 msgid "By"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_comments/templates/easyddb_editorial_dashboard_single_comment.tpl.php:12
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/templates/easyddb_editorial_dashboard_single_comment.tpl.php:12
 msgid "at"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:19
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:19
 msgid "From email address"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:26
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:26
 msgid "From name"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:33
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:33
 msgid "Subject"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:35
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:35
 msgid "This will be prepended to the mail subject/title."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:41
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:41
 msgid "Footer"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:43
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:43
 msgid "This will be prepended to the mail footer. You can use placeholder @year."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:59
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.admin.inc:59
 msgid "Email not valid."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:33;15
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:33;15
 msgid "Dashboard notification"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:34
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:34
 msgid "Manage dashboard notification settings, such as names and e-mail's."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:137
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:134
 msgid "Content @title status."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:138
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:135
 msgid "Content !title status set to @status-ed by."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:154
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:151
 msgid "Content @title commented."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:155
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:152
 msgid "Content !title was  commented by @user. Comment: @comment"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:16
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.module:16
 msgid "View and customize notification settings."
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
 msgid "easyDDB Editorial Dashboard Notification"
 msgstr ""
 
-#: modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
+#: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
 msgid "Wrapper for e-mailing needs."
 msgstr ""
 
-#: views/editorial_content.view.inc:363
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:367
 msgid "Defaults"
 msgstr ""
 
-#: views/editorial_content.view.inc:364
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:368
 msgid "Editorial content"
 msgstr ""
 
-#: views/editorial_content.view.inc:365
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:369
 msgid "view all"
 msgstr ""
 
-#: views/editorial_content.view.inc:366
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:370
 msgid "Apply"
 msgstr ""
 
-#: views/editorial_content.view.inc:367
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:371
 msgid "Reset"
 msgstr ""
 
-#: views/editorial_content.view.inc:368
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:372
 msgid "Sort by"
 msgstr ""
 
-#: views/editorial_content.view.inc:369
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:373
 msgid "Asc"
 msgstr ""
 
-#: views/editorial_content.view.inc:370
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:374
 msgid "Desc"
 msgstr ""
 
-#: views/editorial_content.view.inc:371
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:375
 msgid "Items per page"
 msgstr ""
 
-#: views/editorial_content.view.inc:372
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:376
 msgid "- All -"
 msgstr ""
 
-#: views/editorial_content.view.inc:373
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:377
 msgid "Offset"
 msgstr ""
 
-#: views/editorial_content.view.inc:374
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:378
 msgid "« first"
 msgstr ""
 
-#: views/editorial_content.view.inc:375
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:379
 msgid "‹ previous"
 msgstr ""
 
-#: views/editorial_content.view.inc:376
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:380
 msgid "next ›"
 msgstr ""
 
-#: views/editorial_content.view.inc:377
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:381
 msgid "last »"
 msgstr ""
 
-#: views/editorial_content.view.inc:378
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:382
 msgid "There is no content available for you to edit."
 msgstr ""
 
-#: views/editorial_content.view.inc:379
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:383
 msgid "author"
 msgstr ""
 
-#: views/editorial_content.view.inc:380
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:384
 msgid "Title"
 msgstr ""
 
-#: views/editorial_content.view.inc:381
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:385
 msgid "Type"
 msgstr ""
 
-#: views/editorial_content.view.inc:382
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:386
 msgid "Author"
 msgstr ""
 
-#: views/editorial_content.view.inc:383
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:387
 msgid "Last updated"
 msgstr ""
 
-#: views/editorial_content.view.inc:384
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:388
 msgid "Actions"
 msgstr ""
 
-#: views/editorial_content.view.inc:385
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:389
 msgid "edit"
 msgstr ""
 
-#: views/editorial_content.view.inc:386
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:390
 msgid "Published"
 msgstr ""
 
-#: views/editorial_content.view.inc:387
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:391
 msgid "Editorial status"
 msgstr ""
 
-#: views/editorial_content.view.inc:388
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:392
 msgid "My content"
 msgstr ""
 
-#: views/editorial_content.view.inc:389
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:393
 msgid "Page"
 msgstr ""
 
-#: views/editorial_content.view.inc:390
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:394
 msgid "more"
 msgstr ""
 
-#: views/editorial_content.view.inc:391
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:395
 msgid "Status"
+msgstr ""
+
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:396
+msgid "push for approval"
+msgstr ""
+
+#: profiles/ding2/modules/easyddb_editorial_dashboard/views/editorial_content.view.inc:400
+msgid "BPI status field and action"
 msgstr ""
 
