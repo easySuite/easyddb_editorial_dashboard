@@ -88,11 +88,19 @@ function easyddb_editorial_dashboard_notification_theme($existing, $type, $theme
  */
 function easyddb_editorial_dashboard_notification_editorial_status_changed($action, $node) {
   $settings = variable_get('easyddb_editorial_dashboard_notification_settings', array());
-  $roles = array_filter($settings[$action], function($v) {return $v ? true: false ;});
-  if (!empty($roles)) {
-    $roles = array_keys($roles);
+
+  $destination = null;
+  if ($action == EDITORIAL_ACTION_PUSH) {
+    $destination = array_filter($settings['author'][$action]);
+    $destination = array_keys($destination);
+  }
+  elseif ($settings['editor'][$action]) {
+    $destination = $node->uid;
+  }
+
+  if (!empty($destination)) {
     $theme = 'notification_status_changed';
-    easyddb_editorial_dashboard_notification_user_notify($action, $node, $roles, $theme);
+    easyddb_editorial_dashboard_notification_user_notify($action, $node, $destination, $theme);
   }
 }
 
@@ -100,22 +108,18 @@ function easyddb_editorial_dashboard_notification_editorial_status_changed($acti
  * Implements hook_easyddb_editorial_dashboard_comments_comment_save().
  */
 function easyddb_editorial_dashboard_notification_easyddb_editorial_dashboard_comments_comment_save($user, $node, $comment) {
+  $settings = variable_get('easyddb_editorial_dashboard_notification_settings', array());
+  if ($settings['editor'][EDITORIAL_ACTION_COMMENTED] == 0)
+    return;
+
   $user = user_load($user);
   $node = node_load($node);
-
-  $settings = variable_get('easyddb_editorial_dashboard_notification_settings', array());
-  $roles = array_filter($settings[EDITORIAL_ACTION_COMMENTED], function($v) {return $v ? true: false ;});
-
-  if (!empty($roles)) {
-    $roles = array_keys($roles);
-    $data = array(
-      'author' => $user,
-      'comment' => $comment,
-    );
-    $theme = 'notification_commented';
-    easyddb_editorial_dashboard_notification_user_notify($data, $node, $roles, $theme);
-  }
-
+  $data = array(
+    'author' => $user,
+    'comment' => $comment,
+  );
+  $theme = 'notification_commented';
+  easyddb_editorial_dashboard_notification_user_notify($data, $node,  $user->uid, $theme);
 }
 
 /**
@@ -159,10 +163,17 @@ function theme_notification_commented($vars) {
  * @param $uid
  *   Array of user id's
  */
-function easyddb_editorial_dashboard_notification_user_notify($data, $node, $roles, $theme) {
+function easyddb_editorial_dashboard_notification_user_notify($data, $node, $destination, $theme) {
   if (!empty($node)) {
+
+    if (is_array($destination)) {
+      $users = easyddb_editorial_dashboard_notification_get_users_by_role($destination);
+    }
+    else {
+      $users = user_load_multiple(array($destination));
+    }
+
     // Get all users with specific role.
-    $users = easyddb_editorial_dashboard_notification_get_users_by_role($roles);
     foreach ($users as $user) {
 
       $params = theme($theme, array(
@@ -222,14 +233,17 @@ function easyddb_editorial_dashboard_notification_get_users_by_role($roles = arr
 
   return $users;
 }
-
+/**
+ * Theme for content of notification letter in case then node was commented.
+ */
 function theme_ed_notifications_table(&$vars) {
   $form = $vars['notifications'];
-  $actions = $form['#actions'];
-  foreach (element_children($form) as $id) {
-    $row = array($actions[$id] => $actions[$id]);
-    foreach (element_children($form[$id]) as $child_id) {
-      $row[] = drupal_render($form[$id][$child_id]);
+  $author_actions = $form['#author_actions'];
+  $editor_actions = $form['#editor_actions'];
+  foreach (element_children($form['author']) as $id) {
+    $row = array($author_actions[$id] => $author_actions[$id]);
+    foreach (element_children($form['author'][$id]) as $child_id) {
+      $row[] = drupal_render($form['author'][$id][$child_id]);
     }
     $rows[] = $row;
   }
@@ -239,10 +253,18 @@ function theme_ed_notifications_table(&$vars) {
   $output = theme('table', array(
     'header' => $header,
     'rows' => $rows,
-    'attributes' => array('id' => 'top-facets-table'),
   ));
+
+  $row = array();
+  foreach (element_children($form['editor']) as $id) {
+    $row[] = drupal_render($form['editor'][$id]);
+  }
+
+  $output .= theme('table', array(
+    'header' => $editor_actions,
+    'rows' => array($row),
+  ));
+
 
   return $output;
 }
-
-
