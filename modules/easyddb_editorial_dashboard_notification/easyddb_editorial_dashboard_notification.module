@@ -95,7 +95,7 @@ function easyddb_editorial_dashboard_notification_theme($existing, $type, $theme
 function easyddb_editorial_dashboard_notification_editorial_status_changed($action, $node) {
   $settings = variable_get('easyddb_editorial_dashboard_notification_settings', array());
 
-  $destination = null;
+  $destination = NULL;
   if ($action == EDITORIAL_ACTION_PUSH) {
     $destination = array_filter($settings['author'][$action]);
     $destination = array_keys($destination);
@@ -125,7 +125,7 @@ function easyddb_editorial_dashboard_notification_easyddb_editorial_dashboard_co
     'comment' => $comment,
   );
   $theme = 'notification_commented';
-  easyddb_editorial_dashboard_notification_user_notify($data, $node,  $user->uid, $theme);
+  easyddb_editorial_dashboard_notification_user_notify($data, $node, $user->uid, $theme);
 }
 
 /**

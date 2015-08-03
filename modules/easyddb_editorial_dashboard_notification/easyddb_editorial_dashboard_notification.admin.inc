@@ -13,7 +13,7 @@
  */
 function easyddb_editorial_dashboard_notification_admin_form() {
   $form = array(
-    '#tree' => TRUE
+    '#tree' => TRUE,
   );
 
   $form['easyddb_editorial_dashboard_notification_from_mail'] = array(
@@ -53,7 +53,7 @@ function easyddb_editorial_dashboard_notification_admin_form() {
   $roles = array_combine($roles, $roles);
   // Makes header translatible.
   $header = array_map(function($v) {
-   return t($v);
+    return t($v);
   }, $roles);
   // Adds custom elem to header.
   array_unshift($header, 'Action');
