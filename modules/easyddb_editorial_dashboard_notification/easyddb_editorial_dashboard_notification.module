@@ -1,6 +1,12 @@
 <?php
 /**
  * @file
+ * Code for the easyDDB Editorial Dashboard Notification feature.
+ */
+
+include_once 'easyddb_editorial_dashboard_notification.features.inc';
+/**
+ * @file
  *
  * Main module file.
  */
