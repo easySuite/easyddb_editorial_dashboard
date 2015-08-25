@@ -1,6 +1,12 @@
 <?php
 /**
  * @file
+ * Code for the easyDDB Editorial Dashboard Notification feature.
+ */
+
+include_once 'easyddb_editorial_dashboard_notification.features.inc';
+/**
+ * @file
  *
  * Main module file.
  */
@@ -77,6 +83,9 @@ function easyddb_editorial_dashboard_notification_theme($existing, $type, $theme
     'variables' => array('data' => NULL, 'node' => NULL),
   );
 
+  $hooks['ed_notifications_table'] = array(
+    'render element' => 'notifications',
+  );
   return $hooks;
 }
 
@@ -84,43 +93,39 @@ function easyddb_editorial_dashboard_notification_theme($existing, $type, $theme
  * Implements hook_editorial_status_changed().
  */
 function easyddb_editorial_dashboard_notification_editorial_status_changed($action, $node) {
-  // @todo Make some static array or define admin form.
-  $roles = array(
-    EDITORIAL_ACTION_PUSH => array('editor'),
-    EDITORIAL_ACTION_APPROVE => array('local editor'),
-    EDITORIAL_ACTION_REJECT => array('local editor'),
-  );
-  if (isset($roles[$action])) {
-    $theme = 'notification_status_changed';
-    easyddb_editorial_dashboard_notification_user_notify($action, $node, $roles[$action], $theme);
+  $settings = variable_get('easyddb_editorial_dashboard_notification_settings', array());
+
+  $destination = NULL;
+  if ($action == EDITORIAL_ACTION_PUSH) {
+    $destination = array_filter($settings['author'][$action]);
+    $destination = array_keys($destination);
+  }
+  elseif ($settings['editor'][$action]) {
+    $destination = $node->uid;
   }
 
+  if (!empty($destination)) {
+    $theme = 'notification_status_changed';
+    easyddb_editorial_dashboard_notification_user_notify($action, $node, $destination, $theme);
+  }
 }
 
 /**
  * Implements hook_easyddb_editorial_dashboard_comments_comment_save().
  */
 function easyddb_editorial_dashboard_notification_easyddb_editorial_dashboard_comments_comment_save($user, $node, $comment) {
+  $settings = variable_get('easyddb_editorial_dashboard_notification_settings', array());
+  if ($settings['editor'][EDITORIAL_ACTION_COMMENTED] == 0)
+    return;
+
   $user = user_load($user);
   $node = node_load($node);
-
-  $role = NULL;
-  if (in_array('editor', $user->roles)) {
-    $role = array('local editor');
-  }
-  elseif (in_array('local editor', $user->roles)) {
-    $role = array('editor');
-  }
-
-  if (!empty($role)) {
-    $data = array(
-      'author' => $user,
-      'comment' => $comment,
-    );
-    $theme = 'notification_commented';
-    easyddb_editorial_dashboard_notification_user_notify($data, $node, $role, $theme);
-  }
-
+  $data = array(
+    'author' => $user,
+    'comment' => $comment,
+  );
+  $theme = 'notification_commented';
+  easyddb_editorial_dashboard_notification_user_notify($data, $node, $user->uid, $theme);
 }
 
 /**
@@ -164,10 +169,17 @@ function theme_notification_commented($vars) {
  * @param $uid
  *   Array of user id's
  */
-function easyddb_editorial_dashboard_notification_user_notify($data, $node, $roles, $theme) {
+function easyddb_editorial_dashboard_notification_user_notify($data, $node, $destination, $theme) {
   if (!empty($node)) {
+
+    if (is_array($destination)) {
+      $users = easyddb_editorial_dashboard_notification_get_users_by_role($destination);
+    }
+    else {
+      $users = user_load_multiple(array($destination));
+    }
+
     // Get all users with specific role.
-    $users = easyddb_editorial_dashboard_notification_get_users_by_role($roles);
     foreach ($users as $user) {
 
       $params = theme($theme, array(
@@ -214,15 +226,51 @@ function easyddb_editorial_dashboard_notification_send_mail($to_address = '', $t
  *   Array of users indexed by user id (uid).
  */
 function easyddb_editorial_dashboard_notification_get_users_by_role($roles = array()) {
-
+  global $user;
   $query = db_select('users', 'u');
   $query->join('users_roles', 'ur', 'u.uid=ur.uid');
   $query->join('role', 'r', 'ur.rid=r.rid');
   $users = $query->fields('u')
     ->fields('r')
     ->condition('r.name', $roles, 'IN')
+    ->condition('u.uid', $user->uid, '!=')
     ->execute()
     ->fetchAllAssoc('uid');
 
   return $users;
+}
+/**
+ * Theme for content of notification letter in case then node was commented.
+ */
+function theme_ed_notifications_table(&$vars) {
+  $form = $vars['notifications'];
+  $author_actions = $form['#author_actions'];
+  $editor_actions = $form['#editor_actions'];
+  foreach (element_children($form['author']) as $id) {
+    $row = array($author_actions[$id] => $author_actions[$id]);
+    foreach (element_children($form['author'][$id]) as $child_id) {
+      $row[] = drupal_render($form['author'][$id][$child_id]);
+    }
+    $rows[] = $row;
+  }
+
+  $header = $form['#header'];
+
+  $output = theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+  ));
+
+  $row = array();
+  foreach (element_children($form['editor']) as $id) {
+    $row[] = drupal_render($form['editor'][$id]);
+  }
+
+  $output .= theme('table', array(
+    'header' => $editor_actions,
+    'rows' => array($row),
+  ));
+
+
+  return $output;
 }

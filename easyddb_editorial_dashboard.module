@@ -15,6 +15,7 @@ define('EDITORIAL_ACTION_PUSH', 'push');
 define('EDITORIAL_ACTION_APPROVE', 'approve');
 define('EDITORIAL_ACTION_REJECT', 'reject');
 define('EDITORIAL_ACTION_DELETE', 'delete');
+define('EDITORIAL_ACTION_COMMENTED', 'commented');
 
 /**
  * Implements hook_menu().

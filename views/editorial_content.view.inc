@@ -357,6 +357,10 @@ $handler->display->display_options['fields']['ed_delete_node']['text'] = 'delete
 $handler->display->display_options['fields']['status_1']['id'] = 'status_1';
 $handler->display->display_options['fields']['status_1']['table'] = 'bpi_syndicated';
 $handler->display->display_options['fields']['status_1']['field'] = 'status';
+/* Field: BPI: BPI syndicated */
+$handler->display->display_options['fields']['time']['id'] = 'time';
+$handler->display->display_options['fields']['time']['table'] = 'bpi_syndicated';
+$handler->display->display_options['fields']['time']['field'] = 'time';
 $handler->display->display_options['path'] = 'admin/workbench/content/editorial';
 $handler->display->display_options['menu']['type'] = 'tab';
 $handler->display->display_options['menu']['title'] = 'Editorial content';
@@ -398,4 +402,5 @@ $translatables['workbench_new_editorial_content'] = array(
   t('reject'),
   t('delete'),
   t('BPI status field and action'),
+  t('BPI syndicated'),
 );
