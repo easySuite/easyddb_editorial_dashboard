@@ -616,3 +616,20 @@ function _easyddb_editorial_dashboard_node_delete_confirm_submit(&$form, &$form_
   // Node object here is already marked as deleted, so just save it.
   node_save($node);
 }
+
+/**
+ * Implements hook_clone_node_alter().
+ */
+function easyddb_editorial_dashboard_clone_node_alter(&$node, $context) {
+  $editorial_content_types = variable_get('editorial_content_types', array());
+  if (!in_array($node->type, array_filter($editorial_content_types))) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $editorial_dashboard_status = $wrapper->field_editorial_status->value();
+
+  if (EDITORIAL_NODE_NEW !== $editorial_dashboard_status) {
+    $wrapper->field_editorial_status->set(EDITORIAL_NODE_NEW);
+  }
+}
