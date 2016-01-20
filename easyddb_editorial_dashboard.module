@@ -17,6 +17,8 @@ define('EDITORIAL_ACTION_REJECT', 'reject');
 define('EDITORIAL_ACTION_DELETE', 'delete');
 define('EDITORIAL_ACTION_COMMENTED', 'commented');
 
+include_once 'easyddb_editorial_dashboard.pages.inc';
+
 /**
  * Implements hook_menu().
  */
@@ -315,9 +317,10 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
  *
  * @see easyddb_editorial_dashboard_form_node_form_alter().
  */
-function editorial_dashboard_save_push_submit(&$form, &$form_state) {
-  module_load_include('inc', 'easyddb_editorial_dashboard', 'easyddb_editorial_dashboard.pages');
-  _easyddb_editorial_dashboard_action($form['#node'], 'push');
+function editorial_dashboard_save_push_submit($form, &$form_state) {
+  $node = $form_state['node'];
+  entity_form_submit_build_entity('node', $node, $form, $form_state);
+  _easyddb_editorial_dashboard_action($node, 'push');
 }
 
 /**
@@ -325,9 +328,10 @@ function editorial_dashboard_save_push_submit(&$form, &$form_state) {
  *
  * @see easyddb_editorial_dashboard_form_node_form_alter().
  */
-function editorial_dashboard_save_approve_submit(&$form, &$form_state) {
-  module_load_include('inc', 'easyddb_editorial_dashboard', 'easyddb_editorial_dashboard.pages');
-  _easyddb_editorial_dashboard_action($form['#node'], 'approve');
+function editorial_dashboard_save_approve_submit($form, &$form_state) {
+  $node = $form_state['node'];
+  entity_form_submit_build_entity('node', $node, $form, $form_state);
+  _easyddb_editorial_dashboard_action($node, 'approve');
 }
 
 /**
