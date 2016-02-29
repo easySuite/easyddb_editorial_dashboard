@@ -274,8 +274,8 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
     return;
   }
 
-  $push_permission = user_access('push any ed content');
-  $approve_permission = user_access('approve any ed content');
+  $push_permission = user_access('push any ed content') || user_access('push own ed content');
+  $approve_permission = user_access('approve any ed content') ||  user_access('approve own ed content');
 
   if ($push_permission) {
     $form['actions']['save_push'] = array(
@@ -319,7 +319,6 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
  */
 function editorial_dashboard_save_push_submit($form, &$form_state) {
   $node = $form_state['node'];
-  entity_form_submit_build_entity('node', $node, $form, $form_state);
   _easyddb_editorial_dashboard_action($node, 'push');
 }
 
@@ -330,7 +329,6 @@ function editorial_dashboard_save_push_submit($form, &$form_state) {
  */
 function editorial_dashboard_save_approve_submit($form, &$form_state) {
   $node = $form_state['node'];
-  entity_form_submit_build_entity('node', $node, $form, $form_state);
   _easyddb_editorial_dashboard_action($node, 'approve');
 }
 
