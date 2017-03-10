@@ -100,7 +100,7 @@ function easyddb_editorial_dashboard_notification_editorial_status_changed($acti
     $destination = array_filter($settings['author'][$action]);
     $destination = array_keys($destination);
   }
-  elseif ($settings['editor'][$action]) {
+  elseif (!empty($settings['editor'][$action])) {
     $destination = $node->uid;
   }
 
