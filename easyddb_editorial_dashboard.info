@@ -1,8 +1,8 @@
 name = "easyDDB Editorial Dashboard"
 description = "Provides editorial content features."
-package = "easyDDB"
+package = "easyOPAC"
 core = "7.x"
-version = 7.x-2.4.4+easy
+version = 7.x-3.0.2
 dependencies[] = "views"
 dependencies[] = "views_ui"
 dependencies[] = "workbench"
