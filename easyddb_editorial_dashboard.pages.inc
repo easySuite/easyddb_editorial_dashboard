@@ -52,7 +52,15 @@ function _easyddb_editorial_dashboard_action($node, $action) {
  */
 function _easyddb_editorial_dashboard_node_persist($node, $action) {
   module_invoke_all('editorial_status_changed', $action, $node);
-  node_save($node);
+
+  $new = new stdClass();
+  $new->nid = $node->nid;
+  $new->type = $node->type;
+  $new->field_editorial_status = $node->field_editorial_status;
+  field_attach_update('node', $new);
+
+  entity_get_controller('node')->resetCache(array($node->nid));
+
 }
 
 /**

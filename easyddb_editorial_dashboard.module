@@ -284,8 +284,8 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
       '#value' => t('Save and push to ED'),
       '#weight' => 15,
       '#submit' => array(
-        'node_form_submit',
-        'editorial_dashboard_save_push_submit',
+        0 => 'node_form_submit',
+        1 => 'editorial_dashboard_save_push_submit',
       ),
     );
   }
@@ -297,8 +297,8 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
       '#value' => t('Save and approve to ED'),
       '#weight' => 15,
       '#submit' => array(
-        'node_form_submit',
-        'editorial_dashboard_save_approve_submit',
+        0 => 'node_form_submit',
+        1 => 'editorial_dashboard_save_approve_submit',
       ),
     );
   }
