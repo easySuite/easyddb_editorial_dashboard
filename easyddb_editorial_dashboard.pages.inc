@@ -53,14 +53,11 @@ function _easyddb_editorial_dashboard_action($node, $action) {
 function _easyddb_editorial_dashboard_node_persist($node, $action) {
   module_invoke_all('editorial_status_changed', $action, $node);
 
-  $new = new stdClass();
-  $new->nid = $node->nid;
-  $new->type = $node->type;
-  $new->field_editorial_status = $node->field_editorial_status;
-  field_attach_update('node', $new);
+  $node = node_load($node->nid);
 
-  entity_get_controller('node')->resetCache(array($node->nid));
-
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper->field_editorial_status->set($node->field_editorial_status[LANGUAGE_NONE][0]['value']);
+  $wrapper->save();
 }
 
 /**
