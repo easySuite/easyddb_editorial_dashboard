@@ -56,7 +56,15 @@ function _easyddb_editorial_dashboard_node_persist($node, $action) {
   $node = node_load($node->nid);
 
   $wrapper = entity_metadata_wrapper('node', $node);
-  $wrapper->field_editorial_status->set($node->field_editorial_status[LANGUAGE_NONE][0]['value']);
+  if ($action == 'approve' && $node->field_editorial_status[LANGUAGE_NONE][0]['value'] == 'ed_new') {
+    $wrapper->status->set('1');
+    $wrapper->field_editorial_status->set('ed_appr');
+  }
+  else {
+    $wrapper->field_editorial_status->set(
+      $node->field_editorial_status[LANGUAGE_NONE][0]['value']
+    );
+  }
   $wrapper->save();
 }
 
