@@ -277,16 +277,24 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
   $push_permission = user_access('push any ed content') || user_access('push own ed content');
   $approve_permission = user_access('approve any ed content') ||  user_access('approve own ed content');
 
+  // Add array of actions to run on submit. Node form submit runs first.
+  $submit_actions = array(
+    'save_push' => array('node_form_submit'),
+    'save_approve' => array('node_form_submit'),
+  );
+  // Allow other modules to add action on dashboard submits.
+  drupal_alter('ed_actions', $submit_actions);
+  // Dashboard actions run last in the calls.
+  $submit_actions['save_push'][] = 'editorial_dashboard_save_push_submit';
+  $submit_actions['save_approve'][] = 'editorial_dashboard_save_approve_submit';
+
   if ($push_permission) {
     $form['actions']['save_push'] = array(
       '#type' => 'submit',
       '#access' => TRUE,
       '#value' => t('Save and push to ED'),
       '#weight' => 15,
-      '#submit' => array(
-        0 => 'node_form_submit',
-        1 => 'editorial_dashboard_save_push_submit',
-      ),
+      '#submit' => $submit_actions['save_push'],
     );
   }
 
@@ -296,10 +304,7 @@ function easyddb_editorial_dashboard_form_node_form_alter(&$form, &$form_state, 
       '#access' => TRUE,
       '#value' => t('Save and approve to ED'),
       '#weight' => 15,
-      '#submit' => array(
-        0 => 'node_form_submit',
-        1 => 'editorial_dashboard_save_approve_submit',
-      ),
+      '#submit' => $submit_actions['save_approve'],
     );
   }
 
