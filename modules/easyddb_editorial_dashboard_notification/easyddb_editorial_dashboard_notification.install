@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function easyddb_editorial_dashboard_notification_uninstall() {
+  variable_del('easyddb_editorial_dashboard_notification_from_mail');
+  variable_del('easyddb_editorial_dashboard_notification_from_name');
+  variable_del('easyddb_editorial_dashboard_notification_subject');
+  variable_del('easyddb_editorial_dashboard_notification_footer');
+  variable_del('easyddb_editorial_dashboard_notification_settings');
+}
