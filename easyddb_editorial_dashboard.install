@@ -41,7 +41,7 @@ function easyddb_editorial_dashboard_uninstall() {
   $node_types = node_type_get_types();
 
   foreach ($node_types as $type) {
-    $instance = field_read_instance('node', 'field_editorial_status', $type->type);
+    $instance = field_info_instance('node', 'field_editorial_status', $type->type);
     field_delete_instance($instance);
   }
 
