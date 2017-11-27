@@ -1,4 +1,4 @@
-easyDDB Editorial Dashboard
+easyOPAC Editorial Dashboard
 ==========
 
 Module extends node edit form and node publishing on site as wel.

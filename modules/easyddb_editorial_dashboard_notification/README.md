@@ -1,4 +1,4 @@
-easyDDB Editorial Dashboard Notification
+easyOPAC Editorial Dashboard Notification
 ==========
 
 Module extends Editorial Dashboard with possibility to send letters on node push (or other event) into ED.
