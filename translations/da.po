@@ -208,7 +208,7 @@ msgstr "Afvist"
 
 #: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.info:0
 #, fuzzy
-msgid "easyDDB Editorial Dashboard"
+msgid "easyOPAC Editorial Dashboard"
 msgstr "Redaktionelle kommentarer"
 
 #: profiles/ding2/modules/easyddb_editorial_dashboard/easyddb_editorial_dashboard.info:0
@@ -219,7 +219,7 @@ msgstr ""
 #: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0
 #: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
 #, fuzzy
-msgid "easyDDB"
+msgid "easyOPAC"
 msgstr "Administrer domæne-redelegeringer"
 
 #: profiles/ding2/modules/easyddb_editorial_dashboard/includes/editorial_dashboard_editorial_approve.class.inc:28
@@ -278,7 +278,7 @@ msgid "Node was rejected."
 msgstr "Indhold afvist."
 
 #: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0
-msgid "easyDDB Editorial Dashboard Comments"
+msgid "easyOPAC Editorial Dashboard Comments"
 msgstr "Redaktionelle kommentarer"
 
 #: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_comments/easyddb_editorial_dashboard_comments.info:0
@@ -350,7 +350,7 @@ msgid "View and customize notification settings."
 msgstr "Vis og indstil notificeringsregler."
 
 #: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
-msgid "easyDDB Editorial Dashboard Notification"
+msgid "easyOPAC Editorial Dashboard Notification"
 msgstr ""
 
 #: profiles/ding2/modules/easyddb_editorial_dashboard/modules/easyddb_editorial_dashboard_notification/easyddb_editorial_dashboard_notification.info:0
