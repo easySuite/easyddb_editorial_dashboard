@@ -1,4 +1,4 @@
-name = "easyDDB Editorial Dashboard"
+name = "easyOPAC Editorial Dashboard"
 description = "Provides editorial content features."
 package = "easyOPAC"
 core = "7.x"

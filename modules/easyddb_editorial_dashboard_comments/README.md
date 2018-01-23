@@ -1,4 +1,4 @@
-easyDDB Editorial Dashboard Comments
+easyOPAC Editorial Dashboard Comments
 ==========
 
 Module extends Editorial Dashboard module with possibility to leave comments in node edit form.
