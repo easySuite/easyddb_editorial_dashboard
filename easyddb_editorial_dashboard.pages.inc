@@ -15,7 +15,7 @@
 function _easyddb_editorial_dashboard_action($node, $action) {
   $valid_actions = easyddb_editorial_dashboard_valid_actions();
 
-  if (!array_key_exists($action, $valid_actions)) {
+  if (!in_array($action, array_keys($valid_actions))) {
     $t = array(
       '@action' => $action
     );
@@ -33,6 +33,10 @@ function _easyddb_editorial_dashboard_action($node, $action) {
       '@callback' => $callback,
     );
     watchdog('editorial', t('No such @callback() method defined.'), $t, WATCHDOG_ERROR);
+  }
+
+  if (isset($_GET['destination'])) {
+    drupal_goto($_GET['destination']);
   }
 }
 
