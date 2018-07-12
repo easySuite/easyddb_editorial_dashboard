@@ -14,19 +14,17 @@
  */
 function _easyddb_editorial_dashboard_action($node, $action) {
   $valid_actions = easyddb_editorial_dashboard_valid_actions();
-  $dest = drupal_get_destination();
 
   if (!in_array($action, array_keys($valid_actions))) {
     $t = array(
       '@action' => $action
     );
     watchdog('editorial', t('Unknown action @action requested.'), $t, WATCHDOG_WARNING);
-    drupal_goto($dest['destination']);
   }
 
   $callback = 'easyddb_editorial_dashboard' . $valid_actions[$action];
   if (function_exists($callback)) {
-    $result = $callback($node);
+    $callback($node);
 
     _easyddb_editorial_dashboard_node_persist($node, $action);
   }
@@ -37,7 +35,9 @@ function _easyddb_editorial_dashboard_action($node, $action) {
     watchdog('editorial', t('No such @callback() method defined.'), $t, WATCHDOG_ERROR);
   }
 
-  drupal_goto($dest['destination']);
+  if (isset($_GET['destination'])) {
+    drupal_goto($_GET['destination']);
+  }
 }
 
 /**
