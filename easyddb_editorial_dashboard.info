@@ -4,7 +4,6 @@ package = "easyOPAC"
 core = "7.x"
 version = 7.x-4.0.2
 dependencies[] = "views"
-dependencies[] = "views_ui"
 dependencies[] = "workbench"
 dependencies[] = "bpi"
 files[] = "includes/editorial_dashboard_editorial_push.class.inc"
